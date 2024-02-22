@@ -1,17 +1,15 @@
 package com.wetoys.wetoysproject.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "Item")
-public class Item extends BaseTimeEntity {
+@ToString
+public class ItemEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +22,15 @@ public class Item extends BaseTimeEntity {
     private String content;
 
     @ManyToOne(fetch =  FetchType.LAZY)
-    @JoinColumn(name = "id")
     private MemberEntity memberEntity;
 
+    public static ItemEntity ItemSave(String state, String title, String content, MemberEntity memberEntity){
+        ItemEntity itemEntity = new ItemEntity();
+        itemEntity.state = state;
+        itemEntity.title = title;
+        itemEntity.content = content;
+        itemEntity.memberEntity = memberEntity;
+
+        return itemEntity;
+    }
 }

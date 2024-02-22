@@ -13,6 +13,16 @@ function ItemCreate() {
 
     const create = () => {
         console.log(editorRef.current.getInstance().getMarkdown());
+    
+        axios.post("/api/v1/items", {
+            state : "state",
+            title : "title",
+            content : editorRef.current.getInstance().getMarkdown()
+        }).then(function (response){
+            console.log(response.data);
+        })
+    
+    
     };
 
     return (

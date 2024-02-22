@@ -22,8 +22,8 @@ public class MemberEntity extends BaseTimeEntity {
     private String password;
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "MemberEntity" ,cascade = CascadeType.REMOVE)
-    private List<Item> item;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity" ,cascade = CascadeType.REMOVE)
+    private List<ItemEntity> itemEntity;
 
 
     public static MemberEntity createMember(String email, String password){

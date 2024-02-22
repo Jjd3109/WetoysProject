@@ -5,9 +5,9 @@ import Header from "./Header";
 import Example from "./view/Example";
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import ItemList from "./view/ItemList";
-import Detail from "./view/Detail";
 import MemberJoin from "./view/MemberJoin";
 import ItemCreate from "./view/ItemCreate";
+import Items from './view/Items';
 
 
 
@@ -31,17 +31,13 @@ function App() {
       <div className="App">
           <Header />
           <Example />
-          {/*백엔드 데이터 : {hello['이름']}*/}
-          {/*<div className="">*/}
-          {/*    <h2 className="text-blue-500 text-xl font-bold">Hello, React!</h2>*/}
-          {/*    <p className="text-lg font-medium">Hello, Typescript!</p>*/}
-          {/*</div>*/}
+
 
         <Routes>
             <Route path="/itemList" element={<ItemList />}></Route>
-            <Route path="/Detail/1" element={<Detail />}></Route>
             <Route path="/MemberJoin" element={<MemberJoin />}></Route>
             <Route path="/ItemCreate" element={<ItemCreate />}></Route>
+            <Route path="/Items/:id" element={<Items />}></Route>
         </Routes>
 
 
