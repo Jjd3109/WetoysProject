@@ -3,7 +3,7 @@ import axios from "axios";
 import Header from "./Header";
 import Example from "./view/Example";
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
-import ItemList from "./view/ItemList";
+import Item from "./view/ItemList";
 import MemberJoin from "./view/MemberJoin";
 import ItemCreate from "./view/ItemCreate";
 import Items from './view/Items';
@@ -33,7 +33,7 @@ function App() {
 
 
         <Routes>
-            <Route path="/itemList" element={<ItemList />}></Route>
+            <Route path="/Item" element={<Item />}></Route>
             <Route path="/MemberJoin" element={<MemberJoin />}></Route>
             <Route path="/ItemCreate" element={<ItemCreate />}></Route>
             <Route path="/Items/:id" element={<Items />}></Route>

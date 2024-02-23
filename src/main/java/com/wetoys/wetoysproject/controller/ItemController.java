@@ -27,8 +27,7 @@ public class ItemController {
     @PostMapping("/api/v1/items")
     @ResponseBody
     public ResponseEntity<?> CreateItem(@RequestBody ItemDto itemDto){
-
-        itemService.ItemSave(itemDto);
+        String result = itemService.ItemSave(itemDto);
 
         return ResponseEntity.ok("");
     }
