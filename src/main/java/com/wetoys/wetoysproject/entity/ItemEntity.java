@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "Item")
 @ToString
+@Getter
 public class ItemEntity extends BaseTimeEntity {
 
     @Id
@@ -33,4 +33,5 @@ public class ItemEntity extends BaseTimeEntity {
 
         return itemEntity;
     }
+
 }

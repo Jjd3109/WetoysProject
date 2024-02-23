@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class ItemService {
         MemberEntity memberEntity = MemberEntity.builder()
                 .id(1L)
                 .build();
+
         ItemEntity itemEntity = ItemEntity.ItemSave(itemDto.getState(), itemDto.getTitle(), itemDto.getContent(), memberEntity);
 
         itemRepository.save(itemEntity);
@@ -35,9 +38,8 @@ public class ItemService {
     /*
      * 아이템 조회
      */
-    public Optional<ItemEntity> findItem(Long id){
-        Optional<ItemEntity> value = itemRepository.findById(id);
+    public List<ItemDto> findItem(Long id){
 
-        return itemRepository.findById(id);
+        return itemRepository.findId(id).stream().map(o -> new ItemDto(o)).toList();
     }
 }
