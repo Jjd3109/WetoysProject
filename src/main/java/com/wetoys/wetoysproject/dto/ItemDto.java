@@ -1,5 +1,6 @@
 package com.wetoys.wetoysproject.dto;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.wetoys.wetoysproject.entity.ItemEntity;
 import lombok.Data;
 
@@ -12,16 +13,12 @@ public class ItemDto {
     private String state;
     private String title;
     private String content;
+
+
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
 
-    public ItemDto(ItemEntity itemEntity){
-        id = itemEntity.getId();
-        state = itemEntity.getState();
-        title = itemEntity.getTitle();
-        content = itemEntity.getContent();
-        createdDate = itemEntity.getCreatedDate();
-        modifiedDate = itemEntity.getModifiedDate();
-    }
+
+
 }

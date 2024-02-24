@@ -15,11 +15,12 @@ public class ItemEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String state;
-    private String title;
+    private String state; //상태코드 EX : 100 모집중
+    private String title; //제목
+    private String projectCode; //프로젝트 코드
 
     @Column(length = 100000)
-    private String content;
+    private String content; //내용
 
     @ManyToOne(fetch =  FetchType.LAZY)
     private MemberEntity memberEntity;

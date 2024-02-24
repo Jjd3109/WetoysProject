@@ -1,6 +1,7 @@
 package com.wetoys.wetoysproject.service;
 
 import com.wetoys.wetoysproject.dto.ItemDto;
+import com.wetoys.wetoysproject.dto.ItemResponeDto;
 import com.wetoys.wetoysproject.dto.MemberDto;
 import com.wetoys.wetoysproject.entity.ItemEntity;
 import com.wetoys.wetoysproject.entity.MemberEntity;
@@ -10,8 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -38,8 +38,8 @@ public class ItemService {
     /*
      * 아이템 조회
      */
-    public List<ItemDto> findItem(Long id){
+    public List<ItemResponeDto> findItem(Long id){
 
-        return itemRepository.findId(id).stream().map(o -> new ItemDto(o)).toList();
+        return itemRepository.findId(id).stream().map(o -> new ItemResponeDto(o)).toList();
     }
 }

@@ -18,9 +18,13 @@ function ItemCreate() {
             state : "state",
             title : "title",
             content : editorRef.current.getInstance().getMarkdown()
+        }, {
+            headers: {
+                "Content-Type": "application/json"
+            }
         }).then(function (response){
             console.log(response.data);
-        })
+        });
     
     
     };
