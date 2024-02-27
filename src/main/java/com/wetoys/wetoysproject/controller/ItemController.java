@@ -1,5 +1,6 @@
 package com.wetoys.wetoysproject.controller;
 
+import com.wetoys.wetoysproject.configuration.SecurityUtil;
 import com.wetoys.wetoysproject.dto.ItemDto;
 import com.wetoys.wetoysproject.entity.ItemEntity;
 import com.wetoys.wetoysproject.service.ItemService;
@@ -21,13 +22,15 @@ public class ItemController {
 
     @GetMapping("/api/v1/items/{id}")
     public ResponseEntity<?> Items(@PathVariable("id") Long id){
+
+
         return ResponseEntity.ok(itemService.findItem(id));
     }
 
     @PostMapping("/api/v1/items")
     @ResponseBody
     public ResponseEntity<?> CreateItem(@RequestBody ItemDto itemDto) {
-        String result = itemService.ItemSave(itemDto);
+        String result = itemService.saveItem(itemDto);
 
         return ResponseEntity.ok("");
     }

@@ -1,16 +1,12 @@
 package com.wetoys.wetoysproject.controller;
 
 
-import com.wetoys.wetoysproject.dto.MemberDto;
-import com.wetoys.wetoysproject.entity.MemberEntity;
+import com.wetoys.wetoysproject.token.JwtToken;
+import com.wetoys.wetoysproject.dto.request.MemberRequestDto;
 import com.wetoys.wetoysproject.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +16,8 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping("/api/v1/join")
-    public ResponseEntity<?> hello(@RequestBody MemberDto memberDto){
-        String message = loginService.memberJoin(memberDto);
+    public ResponseEntity<?> hello(@RequestBody MemberRequestDto memberRequestDto){
+        String message = loginService.memberJoin(memberRequestDto);
 
         if(message.equals("true")){
             return ResponseEntity.ok("true");
@@ -29,5 +25,19 @@ public class LoginController {
             return ResponseEntity.badRequest().body(message);
 
         }
+    }
+
+    @PostMapping("/api/v1/login")
+    @ResponseBody
+    public ResponseEntity<?> login(@RequestBody MemberRequestDto memberRequestDto){
+
+
+        String memberId = memberRequestDto.email();
+        String password = memberRequestDto.password();
+        JwtToken tokenInfo = loginService.findMember(memberId, password);
+
+        System.out.println("tokenInfo 값 : " + tokenInfo);
+
+        return ResponseEntity.ok("테스트값");
     }
 }

@@ -7,6 +7,8 @@ import Item from "./view/ItemList";
 import MemberJoin from "./view/MemberJoin";
 import ItemCreate from "./view/ItemCreate";
 import Items from './view/Items';
+import QnA from "./view/QandA";
+import Login from "./view/Login";
 
 
 
@@ -37,6 +39,8 @@ function App() {
             <Route path="/MemberJoin" element={<MemberJoin />}></Route>
             <Route path="/ItemCreate" element={<ItemCreate />}></Route>
             <Route path="/Items/:id" element={<Items />}></Route>
+            <Route path="/QnA" element={<QnA />}></Route>
+            <Route path="/Login" element={<Login />}></Route>
         </Routes>
 
 

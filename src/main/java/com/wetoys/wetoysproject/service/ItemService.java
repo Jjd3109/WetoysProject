@@ -1,8 +1,7 @@
 package com.wetoys.wetoysproject.service;
 
 import com.wetoys.wetoysproject.dto.ItemDto;
-import com.wetoys.wetoysproject.dto.ItemResponeDto;
-import com.wetoys.wetoysproject.dto.MemberDto;
+import com.wetoys.wetoysproject.dto.response.ItemResponeDto;
 import com.wetoys.wetoysproject.entity.ItemEntity;
 import com.wetoys.wetoysproject.entity.MemberEntity;
 import com.wetoys.wetoysproject.repository.ItemRepository;
@@ -23,7 +22,7 @@ public class ItemService {
     /*
      * 프로젝트 생성
      */
-    public String ItemSave(ItemDto itemDto){
+    public String saveItem(ItemDto itemDto){
         MemberEntity memberEntity = MemberEntity.builder()
                 .id(1L)
                 .build();

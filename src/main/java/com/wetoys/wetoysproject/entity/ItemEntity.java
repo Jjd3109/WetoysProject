@@ -17,7 +17,7 @@ public class ItemEntity extends BaseTimeEntity {
 
     private String state; //상태코드 EX : 100 모집중
     private String title; //제목
-    private String projectCode; //프로젝트 코드
+    private String projectCode; //프로젝트 코드 proje
 
     @Column(length = 100000)
     private String content; //내용

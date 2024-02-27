@@ -37,8 +37,12 @@ function Items() {
     return (
         <div>
         <div className="grid place-items-center bg-white py-24 sm:py-32 grid-cols-10 ">
+            
+            <div className="mx-auto max-w-7xl px-6 lg:px-8 col-span-2" >
+            </div>
             {list.length > 0 ? (
-                <div className="mx-auto max-w-7xl px-6 lg:px-8 col-span-8" >
+            
+                <div className="mx-auto max-w-7xl px-6 lg:px-8 col-span-4" >
                     {/* 제목 */}
                     <div >
                         
@@ -109,9 +113,9 @@ function Items() {
             ) : (
                 <div>Loading . . .</div>
             )}
+           
 
-
-            <div className="grid place-items-center col-span-2 ">
+            <div className="grid place-items-center col-span-1">
                 <div class="tw-sticky tw-top-36">
                     <div className="relative mt-8 flex items-center gap-x-4">
                         <img alt="" className="h-10 w-10 rounded-full bg-gray-50" />
@@ -126,7 +130,8 @@ function Items() {
                         </div>
                     </div>
                 </div>
-                </div>
+            </div>
+            <div className="grid place-items-center col-span-4"></div>
         </div>
         <ProjectCard></ProjectCard>
         </div>

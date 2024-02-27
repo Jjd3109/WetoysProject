@@ -16,6 +16,7 @@ public class CommentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 100000)
     private String content; //내용
 
     @ManyToOne(fetch =  FetchType.LAZY)
