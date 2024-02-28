@@ -1,5 +1,7 @@
 package com.wetoys.wetoysproject.configuration;
 
+import com.wetoys.wetoysproject.entity.MemberEntity;
+import com.wetoys.wetoysproject.repository.MemberRepository;
 import com.wetoys.wetoysproject.repository.RefreshTokenRepository;
 import com.wetoys.wetoysproject.token.JwtToken;
 import com.wetoys.wetoysproject.token.RefreshToken;
@@ -10,6 +12,8 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,9 +24,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -32,6 +34,12 @@ public class JwtTokenProvider {
 
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     //property에서 저장
     public JwtTokenProvider(@Value("${jwt.secretKey}") String secretKey) {
@@ -48,8 +56,10 @@ public class JwtTokenProvider {
 
         long now = (new Date()).getTime();
 
+        log.info("authorities 값 = {}", authorities);
+
         // Access Token 생성
-        Date accessTokenExpiresIn = new Date(now + 1000);
+        Date accessTokenExpiresIn = new Date(now + 86400000);
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim("auth", authorities)
@@ -58,16 +68,17 @@ public class JwtTokenProvider {
                 .compact();
 
         // Refresh Token 생성
-        String refreshToken = Jwts.builder()
-                .setExpiration(new Date(now + 86400000))
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
+//        String refreshToken = Jwts.builder()
+//                .setExpiration(new Date(now + 86400000))
+//                .signWith(key, SignatureAlgorithm.HS256)
+//                .compact();
 
-        // Refresh Token redis에 넣는 작업
+        // Refresh Token redis 생성
+        String refreshToken = UUID.randomUUID().toString();
 
-        //System.out.println("authentication.getPrincipal() 값 : " + authentication.getPrincipal());
-
+        // Refresh Token redis에 넣기
         RefreshToken redis = new RefreshToken(refreshToken, authentication.getName());
+
         refreshTokenRepository.save(redis);
 
         return JwtToken.builder()
@@ -88,7 +99,7 @@ public class JwtTokenProvider {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
 
-        //만료시간이 지난 토큰이면 확인후에 리프레쉬토큰을
+
 
         // 클레임에서 권한 정보 가져오기
         Collection<? extends GrantedAuthority> authorities = Arrays.stream(claims.get("auth").toString().split(","))
@@ -102,7 +113,7 @@ public class JwtTokenProvider {
     }
 
     // 토큰 정보를 검증하는 메서드
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token, String refreshToken) {
 
         try {
             Jwts.parserBuilder()
@@ -117,18 +128,17 @@ public class JwtTokenProvider {
         } catch (ExpiredJwtException e) {
            //만료가 되었으니까 이 때 시작 검증 과정을 거친다
 
+            JwtToken jwtToken = reGenertedToken(refreshToken);
+            return false;
 
-            log.info("Expired JWT Token", e);
+
         } catch (UnsupportedJwtException e) {
-            System.out.println("6번");
             log.info("Unsupported JWT Token", e);
         } catch (IllegalArgumentException e) {
             log.info("JWT claims string is empty.", e);
         }
         return false;
     }
-
-
 
 
     // accessToken
@@ -143,6 +153,45 @@ public class JwtTokenProvider {
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
+    }
+
+    // refreshToken 값이 있다면 AccessToken 재발행
+    private JwtToken reGenertedToken(String refreshToken){
+
+        long now = (new Date()).getTime();
+
+        // Refresh Token 값 가져오기
+        HashOperations<String, Object, Object> hashOperations = redisTemplate.opsForHash();
+        Map<Object, Object> map = hashOperations.entries("refreshToken:"+refreshToken);
+
+
+        //refreshToken 값이 존재 한다면 다시 accessToken 생성
+        if(map.size() > 0){
+
+            //이메일로 조회
+            String email = (String) map.get("email");
+            Optional<MemberEntity> memberEntity = memberRepository.findByEmail(email);
+
+
+            // Access Token 생성
+            Date accessTokenExpiresIn = new Date(now + 1000);
+            String accessToken = Jwts.builder()
+                    .setSubject(email)
+                    .claim("auth", memberEntity.get().getRoles()) //권한 넣어주기.
+                    .setExpiration(accessTokenExpiresIn)
+                    .signWith(key, SignatureAlgorithm.HS256)
+                    .compact();
+
+
+            return JwtToken.builder()
+                    .grantType("Bearer")
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build();
+        }
+
+        return null;
+
     }
 
 }

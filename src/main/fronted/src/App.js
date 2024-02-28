@@ -15,6 +15,21 @@ import Login from "./view/Login";
 function App() {
   const [hello, setHello] = useState('');
 
+
+  axios.interceptors.request.use(
+    function(config) {
+        // 요청을 보내기 전에 실행되는 코드
+        config.headers['Authorization'] = `Bearer ` + localStorage.getItem("accessToken"); // 헤더에 AccessToken을 추가
+        config.headers['RefreshToken'] = localStorage.getItem("refreshToken"); // 헤더에 AccessToken을 추가
+        return config;
+    },
+    function(error) {
+        // 요청이 실패했을 때 실행되는 코드
+        return Promise.reject(error);
+    }
+);
+
+
   useEffect(() => {
     // axios.get('/api/test')
     //     .then((res) => {

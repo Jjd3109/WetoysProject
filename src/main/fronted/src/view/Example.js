@@ -233,6 +233,15 @@ export default function Example() {
 
                                 </div>
 
+                                {/* 글작성 */}
+                                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                                    <a href="/itemcreate" className="ml-5 text-sm font-medium text-gray-700 hover:text-gray-800">
+                                       made
+                                    </a>
+                                    <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
+
+                                </div>
+
 
                                 {/* Search */}
                                 <div className="flex lg:ml-6">
@@ -241,6 +250,9 @@ export default function Example() {
                                         <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
                                     </a>
                                 </div>
+
+
+                              
 
                             
                             </div>

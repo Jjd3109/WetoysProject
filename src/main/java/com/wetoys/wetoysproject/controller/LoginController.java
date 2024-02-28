@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@ResponseBody
 public class LoginController {
 
     public final LoginService loginService;
 
-    @ResponseBody
+
     @PostMapping("/api/v1/join")
     public ResponseEntity<?> hello(@RequestBody MemberRequestDto memberRequestDto){
         String message = loginService.memberJoin(memberRequestDto);
@@ -28,7 +29,6 @@ public class LoginController {
     }
 
     @PostMapping("/api/v1/login")
-    @ResponseBody
     public ResponseEntity<?> login(@RequestBody MemberRequestDto memberRequestDto){
 
 
@@ -38,6 +38,6 @@ public class LoginController {
 
         System.out.println("tokenInfo 값 : " + tokenInfo);
 
-        return ResponseEntity.ok("테스트값");
+        return ResponseEntity.ok(tokenInfo);
     }
 }

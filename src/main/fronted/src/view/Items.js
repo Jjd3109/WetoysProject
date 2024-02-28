@@ -16,23 +16,31 @@ import ProjectCard from "./ProjectCard";
 function Items() {
 
 
-
     const {id} = useParams();
     
-    const [list , SetList] = useState([]);
+    const [list , SetList] = useState(['']);
+    
+    const [loading, setLoading] = useState(true);
+
+
    
     useEffect(() => {
+        
+        setLoading(true);
+        
         axios.get(`/api/v1/items/${id}`)
             .then(function(res){
                 SetList(res.data);
-               
+                setLoading(false);
+                console.log(res.data);
             })
             .catch(function(error) {
                 console.error("Error fetching item:", error);
+                setLoading(true);
             });
-    }, [id]); // 빈 의존성 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 합니다.
+    }, [id]); // 마운트 한 번 실행
 
-    console.log(list);
+
 
     return (
         <div>
@@ -40,9 +48,12 @@ function Items() {
             
             <div className="mx-auto max-w-7xl px-6 lg:px-8 col-span-2" >
             </div>
-            {list.length > 0 ? (
-            
-                <div className="mx-auto max-w-7xl px-6 lg:px-8 col-span-4" >
+            {loading ?  (
+                <div>Loading . . .</div>
+            ) : (
+                /* 3항연산자 다시 시작*/
+                list.length > 0 ? (
+                    <div className="mx-auto max-w-7xl px-6 lg:px-8 col-span-4" >
                     {/* 제목 */}
                     <div >
                         
@@ -110,9 +121,13 @@ function Items() {
                         </div>
                     </div>
                 </div>
-            ) : (
-                <div>Loading . . .</div>
+                ) : (
+                    <div>해당 값이 없습니다.</div>
+                )
+          
             )}
+
+        
            
 
             <div className="grid place-items-center col-span-1">

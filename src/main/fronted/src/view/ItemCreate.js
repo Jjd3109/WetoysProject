@@ -30,7 +30,15 @@ function ItemCreate() {
     };
 
     return (
-        <div className="edit_wrap grid place-items-center">
+        <div className="edit_wrap  mx-auto max-w-7xl px-6 lg:px-8 g-white py-24 sm:py-10 max-w-7xl">
+            
+            <div className="mb-6 ">
+                <label for="default-input" className="block mb-2 text-sm font-bold text-gray-900 dark:text-white">제목</label>
+                <input type="text" id="default-input" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </input>
+            </div>
+            
+            
             <Editor
                 initialValue="내용을 입력해주세요."
                 previewStyle="vertical"
