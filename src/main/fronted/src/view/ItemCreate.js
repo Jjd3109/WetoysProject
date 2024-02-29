@@ -11,12 +11,14 @@ function ItemCreate() {
 
     const editorRef = useRef();
     const [title, setTitle] = useState('');
+    const [shortContent, setShortContent] = useState('');
 
     const create = () => {
     
         axios.post("/api/v1/project", {
             state : "state",
             title : title,
+            shortContent : shortContent,
             content : editorRef.current.getInstance().getMarkdown()
         }, {
             headers: {
@@ -43,10 +45,17 @@ function ItemCreate() {
                 <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)}className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </input>
             </div>
+
+
+            <div className="mb-6 ">
+                <label htmlFor="message" className="block mb-2 text-sm font-bold text-gray-900 dark:text-white">요약</label>
+                <textarea id="shortContent" value={shortContent} onChange={(e) => setShortContent(e.target.value)} rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="요약할 내용을 적어주세요"></textarea>
+            </div>
             
             
             <Editor
-                initialValue="내용을 입력해주세요."
+                initialValue=" "
+                placeholder="내용을 입력해주세요."
                 previewStyle="vertical"
                 height="600px"
                 initialEditType="wysiwyg"

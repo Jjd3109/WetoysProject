@@ -1,12 +1,15 @@
 package com.wetoys.wetoysproject.controller;
 
-import com.wetoys.wetoysproject.dto.ProjectDto;
+import com.wetoys.wetoysproject.dto.request.ProjectPageRequest;
+import com.wetoys.wetoysproject.dto.request.ProjectRequest;
 import com.wetoys.wetoysproject.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.awt.print.Pageable;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,14 +24,17 @@ public class ProjectController {
     }
 
     @GetMapping("/api/v1/project")
-    public ResponseEntity<?> projectList(){
-        return ResponseEntity.ok(projectService.findAll());
+    public ResponseEntity<?> projectList(@RequestParam("page") int page, @RequestParam("size") int size){
+
+        //ProjectPageRequest projectPageRequest = new ProjectPageRequest(Integer.parseInt(page), Integer.parseInt(size));
+        ProjectPageRequest projectPageRequest = new ProjectPageRequest(page, size);
+        return ResponseEntity.ok(projectService.findPageProject(projectPageRequest));
     }
 
     @PostMapping("/api/v1/project")
-    public ResponseEntity<?> saveProject(@RequestBody ProjectDto projectDto) {
+    public ResponseEntity<?> saveProject(@RequestBody ProjectRequest projectRequest) {
 
-        if(projectService.saveItem(projectDto)) {
+        if(projectService.saveItem(projectRequest)) {
             return ResponseEntity.ok().build();
         }else{
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

@@ -28,7 +28,7 @@ function ProjectDetail() {
         
         setLoading(true);
         
-        axios.get(`/api/v1/items/${id}`)
+        axios.get(`/api/v1/project/${id}`)
             .then(function(res){
                 SetList(res.data);
                 setLoading(false);

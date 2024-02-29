@@ -28,6 +28,8 @@ public class MemberEntity extends BaseTimeEntity implements UserDetails {
 
     private String password;
 
+    private String position;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();

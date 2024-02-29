@@ -19,16 +19,20 @@ public class ProjectEntity extends BaseTimeEntity {
     private String title; //제목
     private String projectCode; //프로젝트 코드 proje
 
+    @Column(length = 10000)
+    private String shortContent; //요약
+
     @Column(length = 100000)
     private String content; //내용
 
     @ManyToOne(fetch =  FetchType.LAZY)
     private MemberEntity memberEntity;
 
-    public static ProjectEntity ItemSave(String state, String title, String content, MemberEntity memberEntity){
+    public static ProjectEntity ItemSave(String state, String title, String shortContent, String content, MemberEntity memberEntity){
         ProjectEntity projectEntity = new ProjectEntity();
         projectEntity.state = state;
         projectEntity.title = title;
+        projectEntity.shortContent = shortContent;
         projectEntity.content = content;
         projectEntity.memberEntity = memberEntity;
 

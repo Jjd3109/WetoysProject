@@ -37,6 +37,7 @@ public class SecurityConfig {
                 authorize -> authorize
                         .requestMatchers("/api/v1/project/*").hasRole("USER")
                         .requestMatchers("/api/v1/project").permitAll()
+
                         .anyRequest().anonymous()
         );
          http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
