@@ -85,10 +85,10 @@ export default function ProjectList () {
     // Swiper
     const swiper = new Swiper('.swiper', {
         // Optional parameters
-        direction: 'vertical',
+        direction: 'horizontal',
         loop: true,
-        
-        spaceBetween: 30,
+        slidesPerView: 2,
+        spaceBetween: 20,
         // If we need pagination
         pagination: {
           el: '.swiper-pagination',
