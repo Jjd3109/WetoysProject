@@ -57,6 +57,8 @@ public class JwtTokenProvider {
         long now = (new Date()).getTime();
 
         log.info("authorities 값 = {}", authorities);
+        log.info("authentication.getDetails 값 = {}", authentication.getDetails());
+
 
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + 86400000);

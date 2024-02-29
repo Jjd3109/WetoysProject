@@ -6,10 +6,10 @@ import lombok.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Table(name = "Item")
+@Table(name = "project")
 @ToString
 @Getter
-public class ItemEntity extends BaseTimeEntity {
+public class ProjectEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,14 +25,14 @@ public class ItemEntity extends BaseTimeEntity {
     @ManyToOne(fetch =  FetchType.LAZY)
     private MemberEntity memberEntity;
 
-    public static ItemEntity ItemSave(String state, String title, String content, MemberEntity memberEntity){
-        ItemEntity itemEntity = new ItemEntity();
-        itemEntity.state = state;
-        itemEntity.title = title;
-        itemEntity.content = content;
-        itemEntity.memberEntity = memberEntity;
+    public static ProjectEntity ItemSave(String state, String title, String content, MemberEntity memberEntity){
+        ProjectEntity projectEntity = new ProjectEntity();
+        projectEntity.state = state;
+        projectEntity.title = title;
+        projectEntity.content = content;
+        projectEntity.memberEntity = memberEntity;
 
-        return itemEntity;
+        return projectEntity;
     }
 
 }

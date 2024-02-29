@@ -5,6 +5,7 @@ function Login(){
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     
 
 
@@ -21,6 +22,8 @@ function Login(){
             console.log(response.data.accessToken);
             localStorage.setItem("accessToken", response.data.accessToken);
             localStorage.setItem("refreshToken", response.data.refreshToken);
+            
+            
           
         }).catch(function (error) {
             // 오류발생시 실행
@@ -35,7 +38,7 @@ function Login(){
 
     return (
 
-        
+    
         <div className="g-white py-24 sm:py-32 mx-auto max-w-2xl px-6 lg:px-8">
             <h2 className="text-3xl mb-10 font-bold tracking-tight text-gray-900 sm:text-4xl">로그인</h2>
             <div className="mb-6 ">

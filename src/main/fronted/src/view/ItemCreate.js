@@ -10,13 +10,13 @@ import axios from "axios";
 function ItemCreate() {
 
     const editorRef = useRef();
+    const [title, setTitle] = useState('');
 
     const create = () => {
-        console.log(editorRef.current.getInstance().getMarkdown());
     
-        axios.post("/api/v1/items", {
+        axios.post("/api/v1/project", {
             state : "state",
-            title : "title",
+            title : title,
             content : editorRef.current.getInstance().getMarkdown()
         }, {
             headers: {
@@ -24,7 +24,13 @@ function ItemCreate() {
             }
         }).then(function (response){
             console.log(response.data);
-        });
+            //성공시 /item으로 리다이렉트
+            window.location.replace('/project');
+            
+        }).catch(function(error){
+            console.log(error.response.data);
+           
+        })
     
     
     };
@@ -33,8 +39,8 @@ function ItemCreate() {
         <div className="edit_wrap  mx-auto max-w-7xl px-6 lg:px-8 g-white py-24 sm:py-10 max-w-7xl">
             
             <div className="mb-6 ">
-                <label for="default-input" className="block mb-2 text-sm font-bold text-gray-900 dark:text-white">제목</label>
-                <input type="text" id="default-input" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <label htmlFor="default-input" className="block mb-2 text-sm font-bold text-gray-900 dark:text-white">제목</label>
+                <input type="text" id="title" value={title} onChange={(e) => setTitle(e.target.value)}className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 </input>
             </div>
             

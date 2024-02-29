@@ -34,7 +34,7 @@ public class MemberEntity extends BaseTimeEntity implements UserDetails {
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity" ,cascade = CascadeType.REMOVE)
-    private List<ItemEntity> itemEntity;
+    private List<ProjectEntity> projectEntity;
 
 
     public static MemberEntity createMember(String email, String password, List<String> roles){

@@ -20,15 +20,15 @@ public class CommentEntity {
     private String content; //내용
 
     @ManyToOne(fetch =  FetchType.LAZY)
-    private ItemEntity itemEntity;
+    private ProjectEntity projectEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private MemberEntity memberEntity;
 
-    public static CommentEntity commentSave(String content, ItemEntity itemEntity, MemberEntity memberEntity){
+    public static CommentEntity commentSave(String content, ProjectEntity projectEntity, MemberEntity memberEntity){
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.content = content;
-        commentEntity.itemEntity = itemEntity;
+        commentEntity.projectEntity = projectEntity;
         commentEntity.memberEntity = memberEntity;
 
         return commentEntity;

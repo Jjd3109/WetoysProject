@@ -3,10 +3,10 @@ import axios from "axios";
 import Header from "./Header";
 import Example from "./view/Example";
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
-import Item from "./view/ItemList";
+import Project from "./view/ProjectList";
 import MemberJoin from "./view/MemberJoin";
 import ItemCreate from "./view/ItemCreate";
-import Items from './view/Items';
+import ProjectDetail from './view/ProjectDetail';
 import QnA from "./view/QandA";
 import Login from "./view/Login";
 
@@ -50,10 +50,10 @@ function App() {
 
 
         <Routes>
-            <Route path="/Item" element={<Item />}></Route>
+            <Route path="/Project" element={<Project />}></Route>
             <Route path="/MemberJoin" element={<MemberJoin />}></Route>
             <Route path="/ItemCreate" element={<ItemCreate />}></Route>
-            <Route path="/Items/:id" element={<Items />}></Route>
+            <Route path="/ProjectDetail/:id" element={<ProjectDetail />}></Route>
             <Route path="/QnA" element={<QnA />}></Route>
             <Route path="/Login" element={<Login />}></Route>
         </Routes>

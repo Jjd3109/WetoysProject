@@ -80,7 +80,7 @@ const navigation = {
     ],
     pages: [
         { name: 'Q&A', href: '/QnA' },
-        { name: 'Project', href: '/item' },
+        { name: 'Project', href: '/project' },
     ],
 }
 

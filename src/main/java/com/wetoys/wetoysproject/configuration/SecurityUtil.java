@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class SecurityUtil {
 
-    public static String getCurrentMemberId() {
+    public static String getCurrentMemberName() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || authentication.getName() == null) {
@@ -25,5 +25,15 @@ public class SecurityUtil {
             throw new RuntimeException("No authentication information.");
         }
         return authentication.getAuthorities();
+    }
+
+
+    public static Object getCurrentMemberId() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || authentication.getName() == null) {
+            throw new RuntimeException("No authentication information.");
+        }
+        return authentication.getDetails();
     }
 }
