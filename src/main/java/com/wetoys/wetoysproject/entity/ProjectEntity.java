@@ -25,6 +25,8 @@ public class ProjectEntity extends BaseTimeEntity {
     @Column(length = 100000)
     private String content; //내용
 
+    private Integer viewCount; //조회수 조회수는 Integer로 두는 게 더 낫다.
+
     @ManyToOne(fetch =  FetchType.LAZY)
     private MemberEntity memberEntity;
 
@@ -35,8 +37,11 @@ public class ProjectEntity extends BaseTimeEntity {
         projectEntity.shortContent = shortContent;
         projectEntity.content = content;
         projectEntity.memberEntity = memberEntity;
+        projectEntity.viewCount = 0;
 
         return projectEntity;
     }
+
+
 
 }

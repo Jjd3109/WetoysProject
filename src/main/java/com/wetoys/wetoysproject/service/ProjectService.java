@@ -1,5 +1,6 @@
 package com.wetoys.wetoysproject.service;
 
+import com.wetoys.wetoysproject.configuration.CommonConfig;
 import com.wetoys.wetoysproject.configuration.SecurityUtil;
 import com.wetoys.wetoysproject.dto.request.ProjectPageRequest;
 import com.wetoys.wetoysproject.dto.request.ProjectRequest;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
@@ -60,7 +63,7 @@ public class ProjectService {
 
 
     /*
-     * 프로젝트 페이징 조회
+     * 프로젝트 페이징 10건 조회
      */
     public List<ProjectResponeDto> findPageProject(ProjectPageRequest projectPageRequest){
 
@@ -82,6 +85,23 @@ public class ProjectService {
      * 프로젝트 단일 조회
      */
     public List<ProjectResponeDto> findItem(Long id){
+        log.info("값 = {}", CommonConfig.betweenDate(projectRepository.findId(id).get(0).getCreatedDate()));
+
         return projectRepository.findId(id).stream().map(o -> new ProjectResponeDto(o)).toList();
+    }
+
+    /*
+     * 프로젝트 조회수 증가
+     */
+
+    @Transactional(readOnly = false)
+    public boolean viewCount(Long id){
+
+        try {
+            projectRepository.saveViewCount(id);
+            return true;
+        }catch (NullPointerException n){
+            return false;
+        }
     }
 }

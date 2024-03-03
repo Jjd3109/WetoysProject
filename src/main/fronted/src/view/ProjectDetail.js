@@ -28,6 +28,10 @@ function ProjectDetail() {
         
         setLoading(true);
         
+        /*
+        * 1. 페이지 조회수 증가
+        * 2. 조회
+        */
         axios.get(`/api/v1/project/${id}`)
             .then(function(res){
                 SetList(res.data);
@@ -38,6 +42,9 @@ function ProjectDetail() {
                 console.error("Error fetching item:", error);
                 setLoading(true);
             });
+
+    
+        
     }, [id]); // 마운트 한 번 실행
 
 
@@ -58,7 +65,7 @@ function ProjectDetail() {
                                     <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"> [iOS/마케팅] {list[0].title}</h2>
                                     <p className="mt-10 text-lg leading-8 text-gray-600">
                                         <span>• 2일 전</span>
-                                        <span className="ml-3">• 조회수 2,000</span>
+                                        <span className="ml-3">• 조회수 {list[0].viewCount}</span>
                                     </p>
                                 </div>
 

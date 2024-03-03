@@ -177,13 +177,13 @@ export default function ProjectList () {
                 */}
             </div>
 
-            
+            <div className="swiper-jd">
             <div className="swiper">
-                <div className="swiper-wrapper">
+                <div className="swiper-wrapper mt-10">
                     {lists.map((list) => (
                         <div className="swiper-slide" key={list.id}>
                             <Link to={`/ProjectDetail/${list.id}`}>
-                                <article className="flex max-w-xl flex-col items-start justify-between">
+                                <article className="article-container flex max-w-xl flex-col items-start justify-between block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                                     <div className="flex items-center gap-x-4 text-xs">
                                         <time dateTime={list.createdDate} className="text-gray-500">
                                             {list.createdDate}
@@ -196,11 +196,11 @@ export default function ProjectList () {
                                         </div>
                                     </div>
                                     <div className="group relative">
-                                        <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                                        <h3 className="mt-3 text-lg line-clamp-1 font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                                             <span className="absolute inset-0" />
                                             {list.title}
                                         </h3>
-                                        <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{list.shortContent}</p>
+                                        <p className="mt-5 line-clamp-2 text-sm leading-6 text-gray-600 ">{list.shortContent}</p>
                                     </div>
                                     <div className="relative mt-8 flex items-center gap-x-4">
                                         <img alt="" className="h-10 w-10 rounded-full bg-gray-50" />
@@ -217,12 +217,11 @@ export default function ProjectList () {
                         </div>
                     ))}
                 </div>
-                <div className="swiper-pagination"></div>
-                <div className="swiper-button-prev"></div>
-                <div className="swiper-button-next"></div>
-                <div className="swiper-scrollbar"></div>
+
             </div>
-            
+            <div className="swiper-button-prev"></div>
+            <div className="swiper-button-next"></div>
+            </div>
             {/* 
             <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-2">
                 

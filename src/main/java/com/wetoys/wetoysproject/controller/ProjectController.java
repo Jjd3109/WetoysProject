@@ -20,7 +20,16 @@ public class ProjectController {
     private final ProjectService projectService;
     @GetMapping("/api/v1/project/{id}")
     public ResponseEntity<?> project(@PathVariable("id") Long id){
-        return ResponseEntity.ok(projectService.findItem(id));
+        /*
+         * 1. 조회수 증가
+         * 2. 조회수 증가한 것을 조회후 반환
+         */
+        if(projectService.viewCount(id)){
+            return ResponseEntity.ok(projectService.findItem(id));
+        }else{
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
     }
 
     @GetMapping("/api/v1/project")
@@ -40,5 +49,6 @@ public class ProjectController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
+
 
 }

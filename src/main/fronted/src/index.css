@@ -15,7 +15,25 @@ code {
 .swiper {
   width: 1200px;
   height: 300px;
+
 }
+
+.swiper{
+  width: 80%;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.swiper-jd{
+  position: relative;
+}
+
+.article-container {
+  height: 250px; /* 고정된 높이 설정 */
+}
+
+
+
 
 
 @tailwind base;
