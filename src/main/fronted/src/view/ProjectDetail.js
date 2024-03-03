@@ -64,7 +64,7 @@ function ProjectDetail() {
                                 <div className="mx-auto max-w-2xl lg:mx-0">
                                     <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"> [iOS/마케팅] {list[0].title}</h2>
                                     <p className="mt-10 text-lg leading-8 text-gray-600">
-                                        <span>• 2일 전</span>
+                                        <span>• {list[0].createdDate} 전</span>
                                         <span className="ml-3">• 조회수 {list[0].viewCount}</span>
                                     </p>
                                 </div>

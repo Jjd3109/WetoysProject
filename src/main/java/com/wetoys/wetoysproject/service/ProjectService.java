@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional(readOnly = true)
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
@@ -63,20 +63,15 @@ public class ProjectService {
 
 
     /*
-     * 프로젝트 페이징 10건 조회
+     * 프로젝트 페이징 내림차순 10건 조회
      */
     public List<ProjectResponeDto> findPageProject(ProjectPageRequest projectPageRequest){
 
-
-        Pageable pageable = PageRequest.of(projectPageRequest.page(), projectPageRequest.size());
+        Pageable pageable = PageRequest.of(projectPageRequest.page(), projectPageRequest.size(), Sort.by("id").descending());
         log.info("pageable 값 = {}", pageable);
 
         log.info("projectRepository.findAll() 값 = {}", projectRepository.findAll(pageable));
 
-        //List<ProjectEntity> projectEntities = projectRepository.findAll(pageable);
-
-
-        //System.out.println(projectEntities);
 
         return projectRepository.findAll(pageable).stream().map(o -> new ProjectResponeDto(o)).toList();
     }
@@ -93,7 +88,6 @@ public class ProjectService {
     /*
      * 프로젝트 조회수 증가
      */
-
     @Transactional(readOnly = false)
     public boolean viewCount(Long id){
 

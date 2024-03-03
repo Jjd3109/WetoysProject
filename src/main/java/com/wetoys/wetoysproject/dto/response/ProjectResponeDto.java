@@ -17,10 +17,7 @@ public record ProjectResponeDto(
         Integer viewCount,
         String shortContent,
         String email,
-
         String position,
-
-
         String createdDate,
         String modifiedDate
 ){
@@ -37,8 +34,8 @@ public record ProjectResponeDto(
                 projectEntity.getShortContent(),
                 projectEntity.getMemberEntity().getEmail(),
                 projectEntity.getMemberEntity().getPosition(),
-                CommonConfig.changeDate(projectEntity.getCreatedDate()),
-                CommonConfig.changeDate(projectEntity.getModifiedDate())
+                CommonConfig.betweenDate(projectEntity.getCreatedDate()),
+                CommonConfig.betweenDate(projectEntity.getModifiedDate())
 
         );
     }

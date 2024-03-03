@@ -22,14 +22,29 @@ public class CommonConfig {
         return changeDate;
     }
 
-    public static Long betweenDate(LocalDateTime date){
+    public static String betweenDate(LocalDateTime date){
 
+        long seconds = ChronoUnit.SECONDS.between(date, LocalDateTime.now());
+        long minutes = ChronoUnit.MINUTES.between(date, LocalDateTime.now());
         long days = ChronoUnit.DAYS.between(date, LocalDateTime.now());
         long hours = ChronoUnit.HOURS.between(date, LocalDateTime.now());
 
-        log.info("days 값 = {}", days);
-        log.info("LocalDateTime.now() 값 = {}", LocalDateTime.now());
-        log.info("hours 값 = {}", hours);
-        return days;
+        /*
+         * 시간이 24시가 넘어가면 days 로 반환
+         * 1. 몇 초전
+         * 2. 몇 분전
+         * 3. 몇 시간전
+         * 4. 며칠 전
+         */
+        if(seconds < 60){
+            return String.valueOf(seconds) + "초";
+        }
+        if(minutes < 60){
+            return String.valueOf(minutes) + "분";
+        }
+        if(hours < 24){
+            return String.valueOf(hours) + "시간";
+        }
+        return String.valueOf(days) + "일";
     }
 }
