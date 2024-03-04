@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
-    @Query("select i from ProjectEntity i join fetch i.memberEntity where i.id = :id")
+    @Query("SELECT p FROM ProjectEntity p JOIN FETCH p.memberEntity m WHERE p.id = :id")
     List<ProjectEntity> findId(@Param("id") Long id);
 
     @Modifying

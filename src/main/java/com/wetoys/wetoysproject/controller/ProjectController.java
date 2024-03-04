@@ -26,8 +26,7 @@ public class ProjectController {
          */
         if(projectService.viewCount(id)){
             log.info("projectService.findItem(id) 값 = {}", projectService.findItem(id));
-
-            return ResponseEntity.ok(projectService.findItem(id));
+           return ResponseEntity.ok(projectService.findItem(id));
         }else{
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -58,6 +57,9 @@ public class ProjectController {
     @PostMapping("/api/v1/project")
     public ResponseEntity<?> saveProject(@RequestBody ProjectRequest projectRequest) {
 
+        log.info("projectRequest 값 = {}", projectRequest);
+        log.info("projectRequest 값 = {}", projectRequest.checkbox());
+
         if(projectService.saveItem(projectRequest)) {
             return ResponseEntity.ok().build();
         }else{
@@ -69,8 +71,8 @@ public class ProjectController {
      * 좋아요 개수 확인
      */
     @GetMapping("/api/v1/project/like")
-    public ResponseEntity<?> findProject(@RequestParam("id") String id, @RequestParam("memberId") String memberId){
-        return ResponseEntity.ok(projectService.findLike(id, memberId));
+    public ResponseEntity<?> findProject(@RequestParam("id") String id){
+        return ResponseEntity.ok(projectService.findLike(id));
     }
 
     /*
@@ -86,10 +88,8 @@ public class ProjectController {
      * 좋아요취소
      */
     @PostMapping("/api/v1/project/likeCancel")
-    public ResponseEntity<?> likeFailProject(@RequestParam("id") String id, @RequestParam("memberId") String memberId){
-        log.info("memberId 값 = {}", memberId);
-
-        return ResponseEntity.ok(projectService.LikeCancel(id, memberId));
+    public ResponseEntity<?> likeFailProject(@RequestParam("id") String id){
+        return ResponseEntity.ok(projectService.LikeCancel(id));
     }
 
 

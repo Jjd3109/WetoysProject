@@ -10,6 +10,7 @@ import colorSyntax from '@toast-ui/editor-plugin-color-syntax';
 import 'tui-color-picker/dist/tui-color-picker.css';
 import '@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css';
 import ProjectCard from "./ProjectCard";
+import ProjectCardView from "./ProjectCardView";
 
 
 
@@ -22,7 +23,7 @@ function ProjectDetail() {
     
     const [loading, setLoading] = useState(true);
 
-    const [like, setLike] = useState(true);
+    const [like, setLike] = useState(true); // true 일때 좋아요 누를 수 있다.
    
     useEffect(() => {
         
@@ -31,24 +32,30 @@ function ProjectDetail() {
         /*
         * 1. 페이지 조회수 증가
         * 2. 조회
-        * 
+        * 3. 좋아요 개수 구하기
         */
         axios.get(`/api/v1/project/${id}`)
             .then(function(res){
                 SetList(res.data);
                 setLoading(false);
                 console.log(res.data);
-
-                console.log("list[0].memberId 값 : " + list[0].memberId);
                 
                 axios.get(`/api/v1/project/like`, {
                     params : {
                         id : id,
-                        memberId : list[0].memberId
+                        
                     }
                 })
                 .then(function(res){
                     console.log("res.data 값 : " + res.data);
+                    
+                    //null값이면 저장되어 있는곳이 없으므로 setLike가 true가 되어야 한다
+                   
+                    if(res.data == null || res.data == ""){
+                        setLike(true);
+                    }else{
+                        setLike(false);
+                    }
                     console.log("성공");
                 })
                 .catch(function(res){
@@ -61,41 +68,9 @@ function ProjectDetail() {
                 console.error("Error fetching item:", error);
                 setLoading(true);
             });
-
-        
- 
-
-            
-
         
     }, [id]); // 마운트 한 번 실행
 
-
-    // useEffect(() => {
-        
-    //     /*
-    //      * 3. 좋아요 조회
-    //     */
-
-    //     console.log("id 값 " + id);
-    //     console.log("memberId 값 " + list[0].memberId);
-        
-    //     axios.get(`/api/v1/project/like`, {
-    //         params : {
-    //             id : id,
-    //             memberId : list[0].memberId
-    //         }
-    //     })
-    //     .then(function(res){
-    //         console.log("성공");
-    //     })
-    //     .catch(function(res){
-    //         console.log("실패");
-    //     });
-            
-
-        
-    // }, []); // 마운트 한 번 실행
 
 
 
@@ -109,6 +84,9 @@ function ProjectDetail() {
         .then(function(res){
             console.log("성공");
             setLike(false);
+            let copy = [...list];
+            copy[0].likeCount = list[0].likeCount + 1;
+
         })
         .catch(function(res){
             alert("실패");
@@ -116,18 +94,20 @@ function ProjectDetail() {
     }
 
     function LikeCancel(){
-        console.log("memver id 값 : " + list[0].memberId);
-
+  
         axios.post(`/api/v1/project/likeCancel`, null, {
             params : {
                 id : id,
-                memberId : list[0].memberId
+
             }
             
         })
         .then(function(res){
             console.log("성공");
             setLike(true);
+            let copy = [...list];
+            copy[0].likeCount = list[0].likeCount - 1;
+
         })
         .catch(function(res){
             console.log("실패");
@@ -147,20 +127,21 @@ function ProjectDetail() {
                             {/* 제목 */}
                             <div>
                                 <div className="mx-auto max-w-2xl lg:mx-0">
-                                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"> [iOS/마케팅] {list[0].title}</h2>
+                                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"> [{list[0].state}] {list[0].title}</h2>
                                     <p className="mt-10 text-lg leading-8 text-gray-600">
                                         <span>• {list[0].createdDate} 전</span>
                                         <span className="ml-3">• 조회수 {list[0].viewCount}</span>
+                                        <span className="ml-3">• 좋아요 {list[0].likeCount}</span>
                                     </p>
                                 </div>
-
-                                {/* 모집상태 (ex: 완료, 진행중)*/}
+                               
+                                {/* 요약 */}
                                 <div className="mt-10">
-                                    <h4 className="text-3xl mb-10 font-bold tracking-tight text-gray-900 sm:text-2xl">모집 상태</h4>
+                                    <h4 className="text-3xl mb-10 font-bold tracking-tight text-gray-900 sm:text-2xl">요약</h4>
                                     <a
                                         className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
                                     >
-                                        {list[0].state}
+                                        {list[0].shortContent}
                                     </a>
                                 </div>
 
@@ -233,7 +214,7 @@ function ProjectDetail() {
                 </div>
                 <div className="grid place-items-center col-span-4"></div>
             </div>
-            <ProjectCard></ProjectCard>
+            <ProjectCardView></ProjectCardView>
         </div>
     </div>
     

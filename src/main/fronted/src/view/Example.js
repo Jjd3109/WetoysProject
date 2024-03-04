@@ -15,6 +15,8 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Popover, Tab, Transition } from '@headlessui/react'
 import { Bars3Icon, MagnifyingGlassIcon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Navigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 const navigation = {
     categories: [
@@ -90,6 +92,12 @@ function classNames(...classes) {
 
 export default function Example() {
     const [open, setOpen] = useState(false)
+
+    function Logout(){
+        localStorage.clear();
+        document.location.href = '/project';
+        
+    }
 
     return (
         <div className="bg-white">
@@ -223,24 +231,43 @@ export default function Example() {
                                     ))}
                                 </div>
                             </Popover.Group>
-
+                            
                             <div className="ml-auto flex items-center">
-                                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+
+                                {
+                                    localStorage.getItem("accessToken") === null &&  
+                                    
+                                    <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                                     <a href="/Login" className="text-sm font-medium text-gray-700 hover:text-gray-800">
                                        Login
                                     </a>
                                     <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
+                                     </div>
+                                }
 
-                                </div>
+                                {/* 로그아웃 및 글작성 */}
+                                {
+                                    localStorage.getItem("accessToken") !== null &&  
+                                    
+                                
+                                    <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
 
-                                {/* 글작성 */}
-                                <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                                    
+                                    <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
+                                    <button onClick={() => Logout()} className="text-sm font-medium text-gray-700 hover:text-gray-800">
+                                       Logout
+                                    </button>
+                                    <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
+                                     </div>
                                     <a href="/itemcreate" className="ml-5 text-sm font-medium text-gray-700 hover:text-gray-800">
                                        made
                                     </a>
                                     <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
 
-                                </div>
+                                    </div>
+                                }
+                               
+
 
 
                                 {/* Search */}

@@ -16,6 +16,7 @@ public record ProjectResponeDto(
 
         Integer viewCount,
         String shortContent,
+        int likeCount,
         Long memberId,
         String email,
         String position,
@@ -33,6 +34,7 @@ public record ProjectResponeDto(
                 projectEntity.getContent(),
                 projectEntity.getViewCount(),
                 projectEntity.getShortContent(),
+                projectEntity.getLikeProjectEntities().size(),
                 projectEntity.getMemberEntity().getId(),
                 projectEntity.getMemberEntity().getEmail(),
                 projectEntity.getMemberEntity().getPosition(),

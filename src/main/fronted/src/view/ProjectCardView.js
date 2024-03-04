@@ -52,7 +52,7 @@ function ProjectCardView(){
 
     
     return (
-        <div className="bg-white py-24 sm:py-32">
+        <div className="bg-white">
         <div className="mx-auto mt-10 max-w-2xl lg:mx-0">
             <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">인기 있는 프로젝트 TOP 10 🔥</h2>
         </div>

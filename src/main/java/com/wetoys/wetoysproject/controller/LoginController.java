@@ -30,8 +30,6 @@ public class LoginController {
 
     @PostMapping("/api/v1/login")
     public ResponseEntity<?> login(@RequestBody MemberRequestDto memberRequestDto){
-
-
         String memberId = memberRequestDto.email();
         String password = memberRequestDto.password();
         JwtToken tokenInfo = loginService.findMember(memberId, password);
@@ -40,4 +38,6 @@ public class LoginController {
 
         return ResponseEntity.ok(tokenInfo);
     }
+
+
 }

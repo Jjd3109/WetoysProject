@@ -8,7 +8,9 @@ import Swiper from "swiper/bundle";
 // import styles bundle
 import "swiper/css/bundle";
 
-
+/*
+ * 새로운 프로젝트 
+ */ 
 function ProjectCard(){
     const [lists, setLists] = useState([]);
     const [page, setPage] = useState(0);
@@ -45,7 +47,7 @@ function ProjectCard(){
   
     return (
       <div className="bg-white py-24 sm:py-32">
-        <div className="mx-auto mt-10 max-w-2xl lg:mx-0">
+        <div className="mx-auto  max-w-2xl lg:mx-0">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">
             새로운 프로젝트 🎉
           </h2>

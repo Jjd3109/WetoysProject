@@ -1,5 +1,6 @@
 import { useDeferredValue, useEffect, useState } from "react";
 import axios from "axios";
+import MemberJoin from "./MemberJoin";
 
 function Login(){
 
@@ -22,7 +23,7 @@ function Login(){
             console.log(response.data.accessToken);
             localStorage.setItem("accessToken", response.data.accessToken);
             localStorage.setItem("refreshToken", response.data.refreshToken);
-            
+            document.location.href = '/project';
             
           
         }).catch(function (error) {
@@ -31,6 +32,10 @@ function Login(){
 
         })
 
+    }
+
+    function MemberJoin(){
+        document.location.href = '/MemberJoin';
     }
 
 
@@ -54,6 +59,9 @@ function Login(){
             </div>
             <div>
                 <button type="button" className="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={login}> 로그인 </button>
+            </div>
+            <div>
+                <button type="button" className="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={MemberJoin}> 회원가입 </button>
             </div>
         </div>
 

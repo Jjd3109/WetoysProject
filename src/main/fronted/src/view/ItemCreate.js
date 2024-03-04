@@ -12,13 +12,30 @@ function ItemCreate() {
     const editorRef = useRef();
     const [title, setTitle] = useState('');
     const [shortContent, setShortContent] = useState('');
+ 
+
+
+    const [backendChecked, setBackendChecked] = useState(false);
+    const [frontendChecked, setFrontendChecked] = useState(false);
+    const [designChecked, setDesignChecked] = useState(false);
+    const [planningChecked, setPlanningChecked] = useState(false);
+    const [otherChecked, setOtherChecked] = useState(false);
 
     const create = () => {
+
+        const selectedCheckboxes = [];
+        if (backendChecked) selectedCheckboxes.push('백엔드');
+        if (frontendChecked) selectedCheckboxes.push('프론트엔드');
+        if (designChecked) selectedCheckboxes.push('디자인');
+        if (planningChecked) selectedCheckboxes.push('기획');
+        if (otherChecked) selectedCheckboxes.push('기타');
+
     
         axios.post("/api/v1/project", {
-            state : "state",
+            state : "모집중",
             title : title,
             shortContent : shortContent,
+            checkbox : selectedCheckboxes,
             content : editorRef.current.getInstance().getMarkdown()
         }, {
             headers: {
@@ -52,7 +69,32 @@ function ItemCreate() {
                 <textarea id="shortContent" value={shortContent} onChange={(e) => setShortContent(e.target.value)} rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="요약할 내용을 적어주세요"></textarea>
             </div>
             
-            
+            <div className="mb-6 ">
+                 <div className="block mb-2 text-sm font-bold text-gray-900 dark:text-white">모집 역할</div>
+            </div>
+
+            <div className="flex items-center mb-4">
+               
+                <input id="back-checkbox" type="checkbox" value={backendChecked}  onChange={() => setBackendChecked(!backendChecked)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                <label htmlFor="back-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">백엔드</label>
+                
+                <input id="front-checkbox" type="checkbox" value={frontendChecked} onChange={() => setFrontendChecked(!frontendChecked)} className="w-4 h-4 ml-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                <label htmlFor="front-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">프론트엔드</label>
+               
+                <input id="design-checkbox" type="checkbox" value={designChecked} onChange={() => setDesignChecked(!designChecked)} className="w-4 h-4 ml-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                <label htmlFor="design-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">디자인</label>
+               
+                <input id="gi-checkbox" type="checkbox" value={planningChecked} onChange={() => setPlanningChecked(!planningChecked)} className="w-4 h-4 ml-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                <label htmlFor="gi-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">기획</label>
+               
+                <input id="default-checkbox" type="checkbox" value={otherChecked} onChange={() => setOtherChecked(!otherChecked)} className="w-4 h-4 ml-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                <label htmlFor="default-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">기타</label>
+            </div>
+   
+            <div className="mb-6 mt-6">
+                 <div className="block mb-2 text-sm font-bold text-gray-900 dark:text-white">소개</div>
+            </div>
+
             <Editor
                 initialValue=" "
                 placeholder="내용을 입력해주세요."

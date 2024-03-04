@@ -89,7 +89,8 @@ public class ProjectService {
      * 프로젝트 단일 조회
      */
     public List<ProjectResponeDto> findItem(Long id){
-        return projectRepository.findId(id).stream().map(o -> new ProjectResponeDto(o)).toList();
+
+       return projectRepository.findId(id).stream().map(o -> new ProjectResponeDto(o)).toList();
     }
 
     /*
@@ -114,6 +115,7 @@ public class ProjectService {
     public boolean likeUp(String id){
 
         try{
+            log.info("SecurityUtil.getCurrentMemberName() 값 = {}", SecurityUtil.getCurrentMemberName());
             //회원 정보
             Optional<MemberEntity> memberEntity = memberRepository.findByEmail(SecurityUtil.getCurrentMemberName());
 
@@ -138,18 +140,18 @@ public class ProjectService {
      * 프로젝트 좋아요 삭제
      */
     @Transactional(readOnly = false)
-    public boolean LikeCancel(String projectId, String memberId){
+    public boolean LikeCancel(String id){
 
         try{
-            MemberEntity memberEntity = MemberEntity.builder()
-                    .id(Long.valueOf(memberId))
-                    .build();
+            //회원 정보
+            Optional<MemberEntity> memberEntity = memberRepository.findByEmail(SecurityUtil.getCurrentMemberName());
 
-            ProjectEntity projectEntity = ProjectEntity.builder()
-                    .id(Long.valueOf(projectId))
-                    .build();
+            //프로젝트 정보
+            ProjectEntity projectEntity = ProjectEntity.builder().
+                    id(Long.valueOf(id)).
+                    build();
 
-            likeRepository.deleteByMemberEntityAndProjectEntity(memberEntity, projectEntity);
+            likeRepository.deleteByMemberEntityAndProjectEntity(memberEntity.get(), projectEntity);
 
             return true;
         } catch (NullPointerException n){
@@ -162,10 +164,14 @@ public class ProjectService {
     /*
      * 프로젝트 좋아요 있는지 없는지 체크
      */
-    public List<likeResponse> findLike(String projectId, String memberId){
+    public List<likeResponse> findLike(String projectId){
+        /*
+         * 이름을 토대로 멤버 이름 조회
+         */
+        Optional<MemberEntity> memberEntity = memberRepository.findByEmail(SecurityUtil.getCurrentMemberName());
 
         try{
-            List<likeResponse> likeResponses = likeRepository.findByMemberIdAndProjectId(Long.valueOf(memberId), Long.valueOf(projectId)).stream().map(o -> new likeResponse(o)).toList();
+            List<likeResponse> likeResponses = likeRepository.findByMemberIdAndProjectId(memberEntity.get().getId(), Long.valueOf(projectId)).stream().map(o -> new likeResponse(o)).toList();
             return likeResponses;
         }catch (IndexOutOfBoundsException i){
             log.info("좋아요가 없습니당");
