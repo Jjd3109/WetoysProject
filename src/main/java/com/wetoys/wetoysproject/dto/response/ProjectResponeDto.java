@@ -16,6 +16,7 @@ public record ProjectResponeDto(
 
         Integer viewCount,
         String shortContent,
+        Long memberId,
         String email,
         String position,
         String createdDate,
@@ -32,6 +33,7 @@ public record ProjectResponeDto(
                 projectEntity.getContent(),
                 projectEntity.getViewCount(),
                 projectEntity.getShortContent(),
+                projectEntity.getMemberEntity().getId(),
                 projectEntity.getMemberEntity().getEmail(),
                 projectEntity.getMemberEntity().getPosition(),
                 CommonConfig.betweenDate(projectEntity.getCreatedDate()),

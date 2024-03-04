@@ -3,12 +3,15 @@ package com.wetoys.wetoysproject.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "project")
 @ToString
 @Getter
+@Builder
 public class ProjectEntity extends BaseTimeEntity {
 
     @Id
@@ -29,6 +32,9 @@ public class ProjectEntity extends BaseTimeEntity {
 
     @ManyToOne(fetch =  FetchType.LAZY)
     private MemberEntity memberEntity;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "projectEntity", cascade = CascadeType.REMOVE)
+    private List<LikeProjectEntity> likeProjectEntitiy;
 
     public static ProjectEntity ItemSave(String state, String title, String shortContent, String content, MemberEntity memberEntity){
         ProjectEntity projectEntity = new ProjectEntity();

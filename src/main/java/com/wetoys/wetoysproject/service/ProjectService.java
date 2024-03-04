@@ -5,8 +5,11 @@ import com.wetoys.wetoysproject.configuration.SecurityUtil;
 import com.wetoys.wetoysproject.dto.request.ProjectPageRequest;
 import com.wetoys.wetoysproject.dto.request.ProjectRequest;
 import com.wetoys.wetoysproject.dto.response.ProjectResponeDto;
+import com.wetoys.wetoysproject.dto.response.likeResponse;
+import com.wetoys.wetoysproject.entity.LikeProjectEntity;
 import com.wetoys.wetoysproject.entity.ProjectEntity;
 import com.wetoys.wetoysproject.entity.MemberEntity;
+import com.wetoys.wetoysproject.repository.LikeRepository;
 import com.wetoys.wetoysproject.repository.ProjectRepository;
 import com.wetoys.wetoysproject.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +34,7 @@ public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final MemberRepository memberRepository;
+    private final LikeRepository likeRepository;
 
     /*
      * 프로젝트 생성
@@ -56,8 +60,6 @@ public class ProjectService {
      * 프로젝트 전부 조회
      */
     public List<ProjectResponeDto> findAll(){
-        log.info("projectRepository.findAll() 값 = {}", projectRepository.findAll());
-
         return projectRepository.findAll().stream().map(o -> new ProjectResponeDto(o)).toList();
     }
 
@@ -68,20 +70,25 @@ public class ProjectService {
     public List<ProjectResponeDto> findPageProject(ProjectPageRequest projectPageRequest){
 
         Pageable pageable = PageRequest.of(projectPageRequest.page(), projectPageRequest.size(), Sort.by("id").descending());
-        log.info("pageable 값 = {}", pageable);
-
-        log.info("projectRepository.findAll() 값 = {}", projectRepository.findAll(pageable));
-
 
         return projectRepository.findAll(pageable).stream().map(o -> new ProjectResponeDto(o)).toList();
     }
 
     /*
+     * 프로젝트 페이징 조회순 많은 순서대로 10건 조회
+     */
+    public List<ProjectResponeDto> findViewPageProject(ProjectPageRequest projectPageRequest){
+
+        Pageable pageable = PageRequest.of(projectPageRequest.page(), projectPageRequest.size(), Sort.by("viewCount").descending());
+
+        return projectRepository.findAll(pageable).stream().map(o -> new ProjectResponeDto(o)).toList();
+    }
+
+
+    /*
      * 프로젝트 단일 조회
      */
     public List<ProjectResponeDto> findItem(Long id){
-        log.info("값 = {}", CommonConfig.betweenDate(projectRepository.findId(id).get(0).getCreatedDate()));
-
         return projectRepository.findId(id).stream().map(o -> new ProjectResponeDto(o)).toList();
     }
 
@@ -98,4 +105,74 @@ public class ProjectService {
             return false;
         }
     }
+
+
+    /*
+     * 프로젝트 좋아요 증가
+     */
+    @Transactional(readOnly = false)
+    public boolean likeUp(String id){
+
+        try{
+            //회원 정보
+            Optional<MemberEntity> memberEntity = memberRepository.findByEmail(SecurityUtil.getCurrentMemberName());
+
+            //프로젝트 정보
+            ProjectEntity projectEntity = ProjectEntity.builder().
+                                        id(Long.valueOf(id)).
+                                        build();
+
+            LikeProjectEntity likeProjectEntity = LikeProjectEntity.builder().projectEntity(projectEntity).memberEntity(memberEntity.get()).build();
+
+            likeRepository.save(likeProjectEntity);
+
+            return true;
+
+        }catch (NullPointerException n){
+            return false;
+        }
+
+    }
+
+    /*
+     * 프로젝트 좋아요 삭제
+     */
+    @Transactional(readOnly = false)
+    public boolean LikeCancel(String projectId, String memberId){
+
+        try{
+            MemberEntity memberEntity = MemberEntity.builder()
+                    .id(Long.valueOf(memberId))
+                    .build();
+
+            ProjectEntity projectEntity = ProjectEntity.builder()
+                    .id(Long.valueOf(projectId))
+                    .build();
+
+            likeRepository.deleteByMemberEntityAndProjectEntity(memberEntity, projectEntity);
+
+            return true;
+        } catch (NullPointerException n){
+
+            return false;
+        }
+
+    }
+
+    /*
+     * 프로젝트 좋아요 있는지 없는지 체크
+     */
+    public List<likeResponse> findLike(String projectId, String memberId){
+
+        try{
+            List<likeResponse> likeResponses = likeRepository.findByMemberIdAndProjectId(Long.valueOf(memberId), Long.valueOf(projectId)).stream().map(o -> new likeResponse(o)).toList();
+            return likeResponses;
+        }catch (IndexOutOfBoundsException i){
+            log.info("좋아요가 없습니당");
+            return null;
+        }
+
+    }
+
+
 }

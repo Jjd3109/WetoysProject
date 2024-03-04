@@ -9,6 +9,8 @@ import ItemCreate from "./view/ItemCreate";
 import ProjectDetail from './view/ProjectDetail';
 import QnA from "./view/QandA";
 import Login from "./view/Login";
+import ProjectCard from "./view/ProjectCard";
+import ProjectCardView from "./view/ProjectCardView";
 
 
 
@@ -56,6 +58,8 @@ function App() {
             <Route path="/ProjectDetail/:id" element={<ProjectDetail />}></Route>
             <Route path="/QnA" element={<QnA />}></Route>
             <Route path="/Login" element={<Login />}></Route>
+            <Route path="/projectcard" element={<ProjectCard />}></Route>
+            <Route path="/ProjectCardView" element={<ProjectCardView />}></Route>
         </Routes>
 
 

@@ -22,7 +22,7 @@ function ProjectDetail() {
     
     const [loading, setLoading] = useState(true);
 
-
+    const [like, setLike] = useState(true);
    
     useEffect(() => {
         
@@ -31,23 +31,108 @@ function ProjectDetail() {
         /*
         * 1. 페이지 조회수 증가
         * 2. 조회
+        * 
         */
         axios.get(`/api/v1/project/${id}`)
             .then(function(res){
                 SetList(res.data);
                 setLoading(false);
                 console.log(res.data);
+
+                console.log("list[0].memberId 값 : " + list[0].memberId);
+                
+                axios.get(`/api/v1/project/like`, {
+                    params : {
+                        id : id,
+                        memberId : list[0].memberId
+                    }
+                })
+                .then(function(res){
+                    console.log("res.data 값 : " + res.data);
+                    console.log("성공");
+                })
+                .catch(function(res){
+                    console.log("실패");
+                });
+
+
             })
             .catch(function(error) {
                 console.error("Error fetching item:", error);
                 setLoading(true);
             });
 
-    
+        
+ 
+
+            
+
         
     }, [id]); // 마운트 한 번 실행
 
 
+    // useEffect(() => {
+        
+    //     /*
+    //      * 3. 좋아요 조회
+    //     */
+
+    //     console.log("id 값 " + id);
+    //     console.log("memberId 값 " + list[0].memberId);
+        
+    //     axios.get(`/api/v1/project/like`, {
+    //         params : {
+    //             id : id,
+    //             memberId : list[0].memberId
+    //         }
+    //     })
+    //     .then(function(res){
+    //         console.log("성공");
+    //     })
+    //     .catch(function(res){
+    //         console.log("실패");
+    //     });
+            
+
+        
+    // }, []); // 마운트 한 번 실행
+
+
+
+    function Like(){
+       
+        axios.post(`/api/v1/project/like`, null, {
+            params :{
+                id: id
+            },
+        })
+        .then(function(res){
+            console.log("성공");
+            setLike(false);
+        })
+        .catch(function(res){
+            alert("실패");
+        })
+    }
+
+    function LikeCancel(){
+        console.log("memver id 값 : " + list[0].memberId);
+
+        axios.post(`/api/v1/project/likeCancel`, null, {
+            params : {
+                id : id,
+                memberId : list[0].memberId
+            }
+            
+        })
+        .then(function(res){
+            console.log("성공");
+            setLike(true);
+        })
+        .catch(function(res){
+            console.log("실패");
+        })
+    }
 
     return (
         <div className="bg-white py-24 sm:py-12">
@@ -75,7 +160,7 @@ function ProjectDetail() {
                                     <a
                                         className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
                                     >
-                                        모집중
+                                        {list[0].state}
                                     </a>
                                 </div>
 
@@ -134,13 +219,17 @@ function ProjectDetail() {
                                 <p className="font-semibold text-gray-900">
                                     <a >
                                         <span className="absolute inset-0" />
-                                        이름
                                     </a>
                                 </p>
                                 <p className="text-gray-600">cto</p>
                             </div>
                         </div>
                     </div>
+                    {
+                        like ? ( <button onClick={() => Like()}>좋아요</button> ) : (<button onClick={() => LikeCancel()}>좋아요 완료</button>)
+                    }
+                    
+                    {/* <button onClick={() => Like()}>좋아요</button> */}
                 </div>
                 <div className="grid place-items-center col-span-4"></div>
             </div>

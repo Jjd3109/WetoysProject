@@ -35,9 +35,11 @@ public class MemberEntity extends BaseTimeEntity implements UserDetails {
     private List<String> roles = new ArrayList<>();
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity" ,cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity", cascade = CascadeType.REMOVE)
     private List<ProjectEntity> projectEntity;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity", cascade = CascadeType.REMOVE)
+    private List<LikeProjectEntity> likeProjectEntitiy;
 
     public static MemberEntity createMember(String email, String password, List<String> roles){
         MemberEntity memberEntity = new MemberEntity();
