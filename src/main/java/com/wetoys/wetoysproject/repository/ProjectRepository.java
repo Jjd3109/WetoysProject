@@ -14,7 +14,7 @@ import java.util.List;
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
     @Query("SELECT p FROM ProjectEntity p JOIN FETCH p.memberEntity m JOIN FETCH p.memberEntity.roles WHERE p.id = :id")
-    List<ProjectEntity> findId(@Param("id") Long id);
+    ProjectEntity findId(@Param("id") Long id);
 
     @Modifying
     @Query("update ProjectEntity p set p.viewCount = p.viewCount + 1 where p.id = :id")

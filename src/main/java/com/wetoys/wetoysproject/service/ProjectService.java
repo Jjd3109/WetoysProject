@@ -64,13 +64,15 @@ public class ProjectService {
     @Transactional(readOnly = false)
     public boolean updateItem(ProjectRequest projectRequest){
         //아이템 저장 엔티티 생성
-        List<ProjectEntity> projectEntity = projectRepository.findId(projectRequest.id());
+        ProjectEntity projectEntity = projectRepository.findId(projectRequest.id());
 
-        projectEntity.get(0).setState(projectRequest.state());
-        projectEntity.get(0).setTitle(projectRequest.title());
-        projectEntity.get(0).setShortContent(projectRequest.content());
-        projectEntity.get(0).setRequiredPositions(projectRequest.requiredPosition());
-        projectEntity.get(0).setContent(projectRequest.content());
+
+
+//        projectEntity.get(0).setState(projectRequest.state());
+//        projectEntity.get(0).setTitle(projectRequest.title());
+//        projectEntity.get(0).setShortContent(projectRequest.content());
+//        projectEntity.get(0).setRequiredPositions(projectRequest.requiredPosition());
+//        projectEntity.get(0).setContent(projectRequest.content());
 
         return true;
 
@@ -111,7 +113,9 @@ public class ProjectService {
      */
     public List<ProjectResponeDto> findItem(Long id){
 
-       return projectRepository.findId(id).stream().map(o -> new ProjectResponeDto(o)).toList();
+        //log.info("projectRepository.findId(id) 값 = {}", projectRepository.findId(id).getContent());
+        //return projectRepository.findId(id).stream().map(o -> new ProjectResponeDto(o)).toList();
+        return projectRepository.findId(id)
     }
 
     /*
