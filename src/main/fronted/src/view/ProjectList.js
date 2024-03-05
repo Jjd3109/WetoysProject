@@ -27,11 +27,11 @@ export default function ProjectList () {
                     프로젝트의 팀원들을 구해 보세요 !
                 </p>
             </div>
-  
+            <hr className='mt-10'></hr>
             <ProjectCardView></ProjectCardView>
-
+            <hr ></hr>
             <ProjectCard></ProjectCard>
-         
+            <hr></hr>
         </div>
     </div>
     )

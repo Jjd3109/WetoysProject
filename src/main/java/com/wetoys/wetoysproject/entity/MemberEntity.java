@@ -2,6 +2,7 @@ package com.wetoys.wetoysproject.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -36,9 +37,12 @@ public class MemberEntity extends BaseTimeEntity implements UserDetails {
 
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity", cascade = CascadeType.REMOVE)
+    @BatchSize(size = 10)
     private List<ProjectEntity> projectEntity;
 
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity", cascade = CascadeType.REMOVE)
+    @BatchSize(size = 10)
     private List<LikeProjectEntity> likeProjectEntitiy;
 
     public static MemberEntity createMember(String email, String password, List<String> roles){

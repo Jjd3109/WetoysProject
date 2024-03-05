@@ -10,7 +10,6 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
-@ToString
 public class LikeProjectEntity {
 
     @Id

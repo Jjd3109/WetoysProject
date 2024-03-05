@@ -103,9 +103,7 @@ export default function Example() {
         <div className="bg-white">
 
             <header className="relative bg-white">
-                <p className="flex h-10 items-center justify-center bg-indigo-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8">
-                    HI~
-                </p>
+
 
                 <nav aria-label="Top" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="border-b border-gray-200">

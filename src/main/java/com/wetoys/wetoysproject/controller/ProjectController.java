@@ -38,33 +38,37 @@ public class ProjectController {
      */
     @GetMapping("/api/v1/project")
     public ResponseEntity<?> projectList(@RequestParam("page") int page, @RequestParam("size") int size){
-
-        //ProjectPageRequest projectPageRequest = new ProjectPageRequest(Integer.parseInt(page), Integer.parseInt(size));
+        log.info("최신 순서대로");
         ProjectPageRequest projectPageRequest = new ProjectPageRequest(page, size);
         return ResponseEntity.ok(projectService.findPageProject(projectPageRequest));
     }
 
     /*
-     * 프로젝트 조회순서대로
+     * 프로젝트 조회수 최상의 10회 조회
      */
     @GetMapping("/api/v1/viewProject")
     public ResponseEntity<?> viewProject(@RequestParam("page") int page, @RequestParam("size") int size){
+        log.info("조회수 순서대로");
         ProjectPageRequest projectPageRequest = new ProjectPageRequest(page, size);
-
         return ResponseEntity.ok(projectService.findViewPageProject(projectPageRequest));
     }
 
     @PostMapping("/api/v1/project")
     public ResponseEntity<?> saveProject(@RequestBody ProjectRequest projectRequest) {
 
-        log.info("projectRequest 값 = {}", projectRequest);
-        log.info("projectRequest 값 = {}", projectRequest.checkbox());
-
         if(projectService.saveItem(projectRequest)) {
             return ResponseEntity.ok().build();
         }else{
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
+    }
+
+    @PostMapping("/api/v1/update/project")
+    public ResponseEntity<?> updateProject(@RequestBody ProjectRequest projectRequest){
+
+        log.info("projectRequest 값 = {}", projectRequest);
+        projectService.updateItem(projectRequest);
+        return ResponseEntity.ok().build();
     }
 
     /*

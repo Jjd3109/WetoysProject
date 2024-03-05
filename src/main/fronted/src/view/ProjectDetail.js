@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import frontLogo from "../1f4d5.svg";
 import { Viewer } from "@toast-ui/react-editor";
 import { Editor } from '@toast-ui/react-editor';
@@ -114,16 +114,24 @@ function ProjectDetail() {
         })
     }
 
+
+    const navigate = useNavigate();
+    
+    const ModifyProject = () => {
+      navigate("/ModifyProject/" + id);
+    };
+
+
     return (
         <div className="bg-white py-24 sm:py-12">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <div className="grid place-items-center bg-white py-24 sm:py-32 grid-cols-10 ">
-                <div className="mx-auto max-w-7xl px-6 lg:px-8 col-span-2"></div>
+                <div className="mx-auto max-w-7xl px-6 lg:px-8 col-span-1"></div>
                 {loading ? (
                     <div>Loading . . .</div>
                 ) : (
                     list.length > 0 ? (
-                        <div className="mx-auto max-w-7xl px-6 lg:px-8 col-span-4">
+                        <div className="mx-auto grid place-items-start max-w-7xl px-6 lg:px-8 col-span-6">
                             {/* 제목 */}
                             <div>
                                 <div className="mx-auto max-w-2xl lg:mx-0">
@@ -149,26 +157,21 @@ function ProjectDetail() {
                                 <div className="mt-10">
                                     <h4 className="text-3xl mb-10 font-bold tracking-tight text-gray-900 sm:text-2xl">모집 역할</h4>
                                     <div style={{ display: 'flex', alignItems: 'center' }}>
-                                        <img className="frontLogo" src={frontLogo} style={{ width: '30px', height: '30px' }}></img>
-                                        <span
-                                            className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                                        >
-                                            프론트엔트
-                                        </span>
 
-                                        <img className="frontLogo ml-5" src={frontLogo} style={{ width: '30px', height: '30px' }}></img>
-                                        <span
-                                            className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                                        >
-                                            백엔드
-                                        </span>
 
-                                        <img className="frontLogo ml-5" src={frontLogo} style={{ width: '30px', height: '30px' }}></img>
-                                        <span
-                                            className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
-                                        >
-                                            디자인
-                                        </span>
+                                        {list[0].requiredPositions.map((title, index) => {
+                                                return (
+                                                    <div className="flex items-center" key={index}>
+                                                    <img className="frontLogo" src={frontLogo} style={{ width: '30px', height: '30px' }}></img>
+                                                    <span
+                                                        className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+                                                    >
+                                                         {title}
+                                                    </span>
+                                                    </div>
+                                                );
+                                        })}
+
                                     </div>
                                 </div>
 
@@ -190,32 +193,51 @@ function ProjectDetail() {
                         </div>
                     )
                 )}
-                <div className="col-span-1"></div>
+                {/* <div className="col-span-1"></div> */}
                 
-                <div className="grid place-items-center col-span-1">
-                    <div className="tw-sticky tw-top-36">
-                        <div className="relative mt-8 flex items-center gap-x-4">
-                            <img alt="" className="h-10 w-10 rounded-full bg-gray-50" />
-                            <div className="text-sm leading-6">
-                                <p className="font-semibold text-gray-900">
-                                    <a >
-                                        <span className="absolute inset-0" />
-                                    </a>
+                <div className="grid place-items-center col-span-3">
+                <div className="m-auto px-4 py-8 max-w-xl ">
+                    <div className="bg-white shadow-2xl " >
+                        <div>
+                            <img src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" />
+                        </div>
+                        <div className="px-4 py-2 mt-2 bg-white">
+                            <h2 className="font-bold text-xs3 text-gray-800 text-center">Names</h2>
+                                <p className=" text-gray-700 px-2 mr-1 my-3">
+                                   self introduces
                                 </p>
-                                <p className="text-gray-600">cto</p>
+                            <div className="user flex items-center -ml-3 mt-8 mb-4">
+                               
+                                <div className="px-4 py-2 mt-2 text-gray-500">company / backend develop</div>
                             </div>
                         </div>
                     </div>
                     {
-                        like ? ( <button onClick={() => Like()}>좋아요</button> ) : (<button onClick={() => LikeCancel()}>좋아요 완료</button>)
+                        like ?  ( 
+                                    <button type="button" onClick={() => Like()} className="w-full py-2.5 mt-4 px-5 me-2 mb-2 text-sm font-bold text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">좋아요</button>
+                                ) : 
+                                (
+                                    <button type="button" onClick={() => LikeCancel()} className="w-full py-2.5 mt-4 px-5 me-2 mb-2 text-sm font-bold text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">좋아요 완료</button>
+                                )
                     }
                     
-                    {/* <button onClick={() => Like()}>좋아요</button> */}
+                    {
+                    
+                    }
+                    <button type="button" onClick={() => ModifyProject()} className="w-full py-2.5 mt-2 px-5 me-2 mb-2 text-sm font-bold text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">수정</button>
+                    
+                    <button type="button" onClick={() => ModifyProject()} className="w-full py-2.5 mt-2 px-5 me-2 mb-2 text-sm font-bold text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">삭제</button>
+                         
                 </div>
-                <div className="grid place-items-center col-span-4"></div>
+
+                <div>
+                </div>
+                </div>
+         
             </div>
             <ProjectCardView></ProjectCardView>
         </div>
+
     </div>
     
     );

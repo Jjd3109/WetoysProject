@@ -1,6 +1,5 @@
 package com.wetoys.wetoysproject.service;
 
-import com.wetoys.wetoysproject.configuration.CommonConfig;
 import com.wetoys.wetoysproject.configuration.SecurityUtil;
 import com.wetoys.wetoysproject.dto.request.ProjectPageRequest;
 import com.wetoys.wetoysproject.dto.request.ProjectRequest;
@@ -9,6 +8,7 @@ import com.wetoys.wetoysproject.dto.response.likeResponse;
 import com.wetoys.wetoysproject.entity.LikeProjectEntity;
 import com.wetoys.wetoysproject.entity.ProjectEntity;
 import com.wetoys.wetoysproject.entity.MemberEntity;
+import com.wetoys.wetoysproject.entity.RequiredPosition;
 import com.wetoys.wetoysproject.repository.LikeRepository;
 import com.wetoys.wetoysproject.repository.ProjectRepository;
 import com.wetoys.wetoysproject.repository.MemberRepository;
@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,7 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     private final MemberRepository memberRepository;
     private final LikeRepository likeRepository;
+    private final SecurityUtil securityUtil;
 
     /*
      * 프로젝트 생성
@@ -44,7 +46,7 @@ public class ProjectService {
         Optional<MemberEntity> memberEntity = memberRepository.findByEmail(SecurityUtil.getCurrentMemberName());
 
         //아이템 저장 엔티티 생성
-        ProjectEntity projectEntity = ProjectEntity.ItemSave(projectRequest.state(), projectRequest.title(), projectRequest.shortContent(), projectRequest.content(), memberEntity.get());
+        ProjectEntity projectEntity = ProjectEntity.ItemSave(projectRequest.state(), projectRequest.title(), projectRequest.shortContent(), projectRequest.content(), projectRequest.requiredPosition(), memberEntity.get());
 
         try{
             //성공할 시
@@ -56,6 +58,23 @@ public class ProjectService {
         }
     }
 
+    /*
+     * 프로젝트 수정
+     */
+    @Transactional(readOnly = false)
+    public boolean updateItem(ProjectRequest projectRequest){
+        //아이템 저장 엔티티 생성
+        List<ProjectEntity> projectEntity = projectRepository.findId(projectRequest.id());
+
+        projectEntity.get(0).setState(projectRequest.state());
+        projectEntity.get(0).setTitle(projectRequest.title());
+        projectEntity.get(0).setShortContent(projectRequest.content());
+        projectEntity.get(0).setRequiredPositions(projectRequest.requiredPosition());
+        projectEntity.get(0).setContent(projectRequest.content());
+
+        return true;
+
+    }
     /*
      * 프로젝트 전부 조회
      */
@@ -73,6 +92,8 @@ public class ProjectService {
 
         return projectRepository.findAll(pageable).stream().map(o -> new ProjectResponeDto(o)).toList();
     }
+
+
 
     /*
      * 프로젝트 페이징 조회순 많은 순서대로 10건 조회
@@ -114,17 +135,14 @@ public class ProjectService {
     @Transactional(readOnly = false)
     public boolean likeUp(String id){
 
-        try{
-            log.info("SecurityUtil.getCurrentMemberName() 값 = {}", SecurityUtil.getCurrentMemberName());
-            //회원 정보
-            Optional<MemberEntity> memberEntity = memberRepository.findByEmail(SecurityUtil.getCurrentMemberName());
 
+        try{
             //프로젝트 정보
             ProjectEntity projectEntity = ProjectEntity.builder().
                                         id(Long.valueOf(id)).
                                         build();
 
-            LikeProjectEntity likeProjectEntity = LikeProjectEntity.builder().projectEntity(projectEntity).memberEntity(memberEntity.get()).build();
+            LikeProjectEntity likeProjectEntity = LikeProjectEntity.builder().projectEntity(projectEntity).memberEntity(securityUtil.getCurrentMember()).build();
 
             likeRepository.save(likeProjectEntity);
 
@@ -145,6 +163,7 @@ public class ProjectService {
         try{
             //회원 정보
             Optional<MemberEntity> memberEntity = memberRepository.findByEmail(SecurityUtil.getCurrentMemberName());
+
 
             //프로젝트 정보
             ProjectEntity projectEntity = ProjectEntity.builder().

@@ -3,9 +3,11 @@ package com.wetoys.wetoysproject.dto.response;
 import com.wetoys.wetoysproject.configuration.CommonConfig;
 import com.wetoys.wetoysproject.entity.MemberEntity;
 import com.wetoys.wetoysproject.entity.ProjectEntity;
+import com.wetoys.wetoysproject.entity.RequiredPosition;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public record ProjectResponeDto(
         Long id,
@@ -17,6 +19,9 @@ public record ProjectResponeDto(
         Integer viewCount,
         String shortContent,
         int likeCount,
+
+        List<RequiredPosition> requiredPositions,
+
         Long memberId,
         String email,
         String position,
@@ -35,6 +40,7 @@ public record ProjectResponeDto(
                 projectEntity.getViewCount(),
                 projectEntity.getShortContent(),
                 projectEntity.getLikeProjectEntities().size(),
+                projectEntity.getRequiredPositions(),
                 projectEntity.getMemberEntity().getId(),
                 projectEntity.getMemberEntity().getEmail(),
                 projectEntity.getMemberEntity().getPosition(),

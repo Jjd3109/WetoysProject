@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/viewProject").permitAll()
                         .requestMatchers("/api/v1/project/like").hasRole("USER")
                         .requestMatchers("/api/v1/project/likeCancel").hasRole("USER")
+                        .requestMatchers("/api/v1/update/project").hasRole("USER")
                         .anyRequest().anonymous()
         );
          http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

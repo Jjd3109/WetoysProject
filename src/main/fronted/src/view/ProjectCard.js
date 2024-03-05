@@ -63,22 +63,27 @@ function ProjectCard(){
                       <time dateTime={list.createdDate} className="text-gray-500">
                         {list.createdDate} 전
                       </time>
-                      <div className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
-                        {list.projectCode}
-                      </div>
-                      <div className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">
-                        {list.state}
-                      </div>
+
+                      {
+                        list.requiredPositions.map((test, index) => {
+                            return(
+                                <div className="relative z-10 rounded-full bg-gray-50 px-2 py-1.5 font-medium text-gray-900 hover:bg-gray-100">
+                                    {test}
+                                </div>
+                            )
+                        })
+                    }
+
                     </div>
                     <div className="group relative">
                       <h3 className="mt-3 text-lg line-clamp-1 font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                         <span className="absolute inset-0" />
-                        {list.title}
+                        [{list.state}]{list.title}
                       </h3>
                       <p className="mt-5 line-clamp-2 text-sm leading-6 text-gray-600 ">
                         {list.shortContent}
                       </p>
-                      <p className="mt-5 text-sm leading-6 text-gray-600 text-xs ">조회수 {list.viewCount}  &nbsp;좋아요 0</p>
+                      <p className="mt-5 text-sm leading-6 text-gray-600 text-xs ">조회수 {list.viewCount}  &nbsp;좋아요 {list.likeCount}</p>
                                     
                     </div>
                     <div className="relative mt-8 flex items-center gap-x-4">

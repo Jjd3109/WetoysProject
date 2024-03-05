@@ -11,6 +11,7 @@ import QnA from "./view/QandA";
 import Login from "./view/Login";
 import ProjectCard from "./view/ProjectCard";
 import ProjectCardView from "./view/ProjectCardView";
+import ModifyProject from "./view/ModifyProject";
 
 
 
@@ -60,6 +61,7 @@ function App() {
             <Route path="/Login" element={<Login />}></Route>
             <Route path="/projectcard" element={<ProjectCard />}></Route>
             <Route path="/ProjectCardView" element={<ProjectCardView />}></Route>
+            <Route path="/ModifyProject/:id" element={<ModifyProject />}></Route>
         </Routes>
 
 
