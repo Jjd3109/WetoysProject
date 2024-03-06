@@ -46,11 +46,12 @@ function ProjectCard(){
     }, [lists]);
   
     return (
-      <div className="bg-white py-24 sm:py-32">
+      <div className="bg-white py-24 sm:py-12">
         <div className="mx-auto  max-w-2xl lg:mx-0">
           <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">
             새로운 프로젝트 🎉
           </h2>
+          <div className="mt-3 font-bold">새로 업데이트된 사이드 프로젝트를 확인해보세요!</div>
         </div>
         <div className="swiper-jd">
         <div className="swiper swiper-card">
@@ -78,9 +79,9 @@ function ProjectCard(){
                     <div className="group relative">
                       <h3 className="mt-3 text-lg line-clamp-1 font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                         <span className="absolute inset-0" />
-                        [{list.state}]{list.title}
+                        {list.state} | {list.title}
                       </h3>
-                      <p className="mt-5 line-clamp-2 text-sm leading-6 text-gray-600 ">
+                      <p className="mt-5 line-clamp-2 font-semibold text-sm leading-6 text-gray-600 ">
                         {list.shortContent}
                       </p>
                       <p className="mt-5 text-sm leading-6 text-gray-600 text-xs ">조회수 {list.viewCount}  &nbsp;좋아요 {list.likeCount}</p>

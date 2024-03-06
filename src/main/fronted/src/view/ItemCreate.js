@@ -24,11 +24,11 @@ function ItemCreate() {
     const create = () => {
 
         const selectedCheckboxes = [];
-        if (backendChecked) selectedCheckboxes.push('백엔드');
-        if (frontendChecked) selectedCheckboxes.push('프론트엔드');
-        if (designChecked) selectedCheckboxes.push('디자인');
-        if (planningChecked) selectedCheckboxes.push('기획');
-        if (otherChecked) selectedCheckboxes.push('기타');
+        if (backendChecked) selectedCheckboxes.push('Backend');
+        if (frontendChecked) selectedCheckboxes.push('Frontend');
+        if (designChecked) selectedCheckboxes.push('Design');
+        if (planningChecked) selectedCheckboxes.push('PM');
+        if (otherChecked) selectedCheckboxes.push('Other');
 
     
         axios.post("/api/v1/project", {
@@ -76,19 +76,19 @@ function ItemCreate() {
             <div className="flex items-center mb-4">
                
                 <input id="back-checkbox" type="checkbox" checked={backendChecked}  onChange={() => setBackendChecked(!backendChecked)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                <label htmlFor="back-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">백엔드</label>
+                <label htmlFor="back-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">Backend</label>
                 
                 <input id="front-checkbox" type="checkbox" checked={frontendChecked} onChange={() => setFrontendChecked(!frontendChecked)} className="w-4 h-4 ml-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                <label htmlFor="front-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">프론트엔드</label>
+                <label htmlFor="front-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">Frontend</label>
                
                 <input id="design-checkbox" type="checkbox" checked={designChecked} onChange={() => setDesignChecked(!designChecked)} className="w-4 h-4 ml-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                <label htmlFor="design-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">디자인</label>
+                <label htmlFor="design-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">Design</label>
                
                 <input id="gi-checkbox" type="checkbox" checked={planningChecked} onChange={() => setPlanningChecked(!planningChecked)} className="w-4 h-4 ml-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                <label htmlFor="gi-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">기획</label>
+                <label htmlFor="gi-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">PM</label>
                
                 <input id="default-checkbox" type="checkbox" checked={otherChecked} onChange={() => setOtherChecked(!otherChecked)} className="w-4 h-4 ml-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                <label htmlFor="default-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">기타</label>
+                <label htmlFor="default-checkbox" className="ms-1 text-sm font-medium text-gray-900 dark:text-gray-300">Other</label>
             </div>
    
             <div className="mb-6 mt-6">

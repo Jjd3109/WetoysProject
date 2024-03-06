@@ -12,6 +12,7 @@ import com.wetoys.wetoysproject.entity.RequiredPosition;
 import com.wetoys.wetoysproject.repository.LikeRepository;
 import com.wetoys.wetoysproject.repository.ProjectRepository;
 import com.wetoys.wetoysproject.repository.MemberRepository;
+import com.wetoys.wetoysproject.repository.impl.ProjectRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -37,6 +38,7 @@ public class ProjectService {
     private final MemberRepository memberRepository;
     private final LikeRepository likeRepository;
     private final SecurityUtil securityUtil;
+    private final ProjectRepositoryImpl projectRepositoryImpl;
 
     /*
      * 프로젝트 생성
@@ -64,15 +66,14 @@ public class ProjectService {
     @Transactional(readOnly = false)
     public boolean updateItem(ProjectRequest projectRequest){
         //아이템 저장 엔티티 생성
-        ProjectEntity projectEntity = projectRepository.findId(projectRequest.id());
+        List<ProjectEntity> projectEntity = projectRepository.findId(projectRequest.id());
 
 
-
-//        projectEntity.get(0).setState(projectRequest.state());
-//        projectEntity.get(0).setTitle(projectRequest.title());
-//        projectEntity.get(0).setShortContent(projectRequest.content());
-//        projectEntity.get(0).setRequiredPositions(projectRequest.requiredPosition());
-//        projectEntity.get(0).setContent(projectRequest.content());
+        projectEntity.get(0).setState(projectRequest.state());
+        projectEntity.get(0).setTitle(projectRequest.title());
+        projectEntity.get(0).setShortContent(projectRequest.shortContent());
+        projectEntity.get(0).setRequiredPositions(projectRequest.requiredPosition());
+        projectEntity.get(0).setContent(projectRequest.content());
 
         return true;
 
@@ -88,9 +89,11 @@ public class ProjectService {
     /*
      * 프로젝트 페이징 내림차순 10건 조회
      */
-    public List<ProjectResponeDto> findPageProject(ProjectPageRequest projectPageRequest){
+    public List<ProjectResponeDto> findPageProject(ProjectPageRequest projectPageRequest, String menuObject){
 
         Pageable pageable = PageRequest.of(projectPageRequest.page(), projectPageRequest.size(), Sort.by("id").descending());
+
+        log.info(projectRepositoryImpl.findAllDistinct(pageable).toString());
 
         return projectRepository.findAll(pageable).stream().map(o -> new ProjectResponeDto(o)).toList();
     }
@@ -114,8 +117,8 @@ public class ProjectService {
     public List<ProjectResponeDto> findItem(Long id){
 
         //log.info("projectRepository.findId(id) 값 = {}", projectRepository.findId(id).getContent());
-        //return projectRepository.findId(id).stream().map(o -> new ProjectResponeDto(o)).toList();
-        return projectRepository.findId(id)
+        return projectRepository.findId(id).stream().map(o -> new ProjectResponeDto(o)).toList();
+
     }
 
     /*

@@ -62,6 +62,8 @@ function ProjectCardView(){
                     <>
                     <div className="mx-auto mt-10 max-w-2xl lg:mx-0">
                     <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">인기 있는 프로젝트 TOP 10 🔥</h2>
+                    <div className="mt-3 font-bold">인기있는 사이드 프로젝트를 확인해보세요!</div>
+                    
                 </div>
                 <div className="swiper-jd">
                 <div className="swiper swiper-card-view">
@@ -90,9 +92,9 @@ function ProjectCardView(){
                                         <div className="group relative">
                                             <h3 className="mt-3 text-lg line-clamp-1 font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                                                 <span className="absolute inset-0" />
-                                                [{cardList.state}]  {cardList.title}
+                                                {cardList.state} |   {cardList.title}
                                             </h3>
-                                            <p className="mt-5 line-clamp-2 text-sm leading-6 text-gray-600 ">{cardList.shortContent}</p>
+                                            <p className="mt-5 line-clamp-2 text-sm font-semibold leading-6 text-gray-600 ">{cardList.shortContent}</p>
                                             <p className="mt-5 text-sm leading-6 text-gray-600 text-xs ">조회수 {cardList.viewCount}  &nbsp;좋아요 {cardList.likeCount}</p>
                                             
                                         </div>

@@ -1,5 +1,6 @@
 package com.wetoys.wetoysproject.controller;
 
+import com.wetoys.wetoysproject.configuration.SecurityUtil;
 import com.wetoys.wetoysproject.dto.request.ProjectPageRequest;
 import com.wetoys.wetoysproject.dto.request.ProjectRequest;
 import com.wetoys.wetoysproject.service.ProjectService;
@@ -37,10 +38,15 @@ public class ProjectController {
      * 프로젝트 최신건 10회 조회
      */
     @GetMapping("/api/v1/project")
-    public ResponseEntity<?> projectList(@RequestParam("page") int page, @RequestParam("size") int size){
-        log.info("최신 순서대로");
+    public ResponseEntity<?> projectList(@RequestParam("page") int page, @RequestParam("size") int size, @RequestParam(value = "menuObject", required = false) String menuObject){
+        log.info("최신순서");
+        log.info("menuObject 값 = {}", menuObject);
+
         ProjectPageRequest projectPageRequest = new ProjectPageRequest(page, size);
-        return ResponseEntity.ok(projectService.findPageProject(projectPageRequest));
+
+
+
+        return ResponseEntity.ok(projectService.findPageProject(projectPageRequest, menuObject));
     }
 
     /*
@@ -48,7 +54,7 @@ public class ProjectController {
      */
     @GetMapping("/api/v1/viewProject")
     public ResponseEntity<?> viewProject(@RequestParam("page") int page, @RequestParam("size") int size){
-        log.info("조회수 순서대로");
+        log.info("조회수순서");
         ProjectPageRequest projectPageRequest = new ProjectPageRequest(page, size);
         return ResponseEntity.ok(projectService.findViewPageProject(projectPageRequest));
     }
@@ -63,6 +69,9 @@ public class ProjectController {
         }
     }
 
+    /*
+     * 게시물 수정
+     */
     @PostMapping("/api/v1/update/project")
     public ResponseEntity<?> updateProject(@RequestBody ProjectRequest projectRequest){
 
@@ -96,6 +105,13 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.LikeCancel(id));
     }
 
+    /*
+     * 아이디 가져오기
+     */
+    @GetMapping("/api/v1/project/findEmail")
+    public ResponseEntity<?> findEmail(){
+        return ResponseEntity.ok(SecurityUtil.getCurrentMemberName());
+    }
 
 
 }

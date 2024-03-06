@@ -12,6 +12,7 @@ import Login from "./view/Login";
 import ProjectCard from "./view/ProjectCard";
 import ProjectCardView from "./view/ProjectCardView";
 import ModifyProject from "./view/ModifyProject";
+import ProjectAll from "./view/ProjectAll";
 
 
 
@@ -62,6 +63,7 @@ function App() {
             <Route path="/projectcard" element={<ProjectCard />}></Route>
             <Route path="/ProjectCardView" element={<ProjectCardView />}></Route>
             <Route path="/ModifyProject/:id" element={<ModifyProject />}></Route>
+            <Route path="/ProjectAll" element={<ProjectAll />}></Route>
         </Routes>
 
 

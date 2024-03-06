@@ -24,6 +24,8 @@ function ProjectDetail() {
     const [loading, setLoading] = useState(true);
 
     const [like, setLike] = useState(true); // true 일때 좋아요 누를 수 있다.
+
+    const [userEmail, setUserEmail] = useState();
    
     useEffect(() => {
         
@@ -47,8 +49,6 @@ function ProjectDetail() {
                     }
                 })
                 .then(function(res){
-                    console.log("res.data 값 : " + res.data);
-                    
                     //null값이면 저장되어 있는곳이 없으므로 setLike가 true가 되어야 한다
                    
                     if(res.data == null || res.data == ""){
@@ -72,6 +72,24 @@ function ProjectDetail() {
     }, [id]); // 마운트 한 번 실행
 
 
+    /*
+     * 사용자 이메일 찾기
+    */ 
+    useEffect(() => {
+
+        /*
+         * 1. 이메일 반환 후 게시물 지은 이름이랑 동일하면 
+        */ 
+
+        axios.get(`/api/v1/project/findEmail`)
+            .then(function(res){
+                setUserEmail(res.data);
+            })
+            .catch(function(res){
+                console.log("이메일 반환 실패");
+            })
+
+    })
 
 
     function Like(){
@@ -82,7 +100,7 @@ function ProjectDetail() {
             },
         })
         .then(function(res){
-            console.log("성공");
+            
             setLike(false);
             let copy = [...list];
             copy[0].likeCount = list[0].likeCount + 1;
@@ -103,7 +121,7 @@ function ProjectDetail() {
             
         })
         .then(function(res){
-            console.log("성공");
+           
             setLike(true);
             let copy = [...list];
             copy[0].likeCount = list[0].likeCount - 1;
@@ -135,7 +153,7 @@ function ProjectDetail() {
                             {/* 제목 */}
                             <div>
                                 <div className="mx-auto max-w-2xl lg:mx-0">
-                                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"> [{list[0].state}] {list[0].title}</h2>
+                                    <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"> {list[0].state} |  {list[0].title}</h2>
                                     <p className="mt-10 text-lg leading-8 text-gray-600">
                                         <span>• {list[0].createdDate} 전</span>
                                         <span className="ml-3">• 조회수 {list[0].viewCount}</span>
@@ -212,6 +230,8 @@ function ProjectDetail() {
                             </div>
                         </div>
                     </div>
+                    
+                    {/* 좋아요를 눌렀으면 다음과 같이 안눌렀으면 나오지 않게*/}
                     {
                         like ?  ( 
                                     <button type="button" onClick={() => Like()} className="w-full py-2.5 mt-4 px-5 me-2 mb-2 text-sm font-bold text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">좋아요</button>
@@ -221,13 +241,15 @@ function ProjectDetail() {
                                 )
                     }
                     
+                    {/* 글을 쓴 사용자와 게시물의 작성자가 동일하면 수정 삭제 버튼 생성.*/}
                     {
-                    
+                        userEmail == list[0].email &&  
+                        <>
+                        <button type="button" onClick={() => ModifyProject()} className="w-full py-2.5 mt-2 px-5 me-2 mb-2 text-sm font-bold text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">수정</button>
+                        <button type="button" onClick={() => ModifyProject()} className="w-full py-2.5 mt-2 px-5 me-2 mb-2 text-sm font-bold text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">삭제</button>
+                        </>   
                     }
-                    <button type="button" onClick={() => ModifyProject()} className="w-full py-2.5 mt-2 px-5 me-2 mb-2 text-sm font-bold text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">수정</button>
-                    
-                    <button type="button" onClick={() => ModifyProject()} className="w-full py-2.5 mt-2 px-5 me-2 mb-2 text-sm font-bold text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">삭제</button>
-                         
+                   
                 </div>
 
                 <div>

@@ -1,6 +1,7 @@
 package com.wetoys.wetoysproject.repository;
 
 import com.wetoys.wetoysproject.entity.ProjectEntity;
+import com.wetoys.wetoysproject.repository.custom.ProjectRepositoryCustom;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,10 +12,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
+public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> , ProjectRepositoryCustom {
 
     @Query("SELECT p FROM ProjectEntity p JOIN FETCH p.memberEntity m JOIN FETCH p.memberEntity.roles WHERE p.id = :id")
-    ProjectEntity findId(@Param("id") Long id);
+    List<ProjectEntity> findId(@Param("id") Long id);
 
     @Modifying
     @Query("update ProjectEntity p set p.viewCount = p.viewCount + 1 where p.id = :id")
