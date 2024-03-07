@@ -1,5 +1,6 @@
 package com.wetoys.wetoysproject.dto.response;
 
+import com.querydsl.core.annotations.QueryProjection;
 import com.wetoys.wetoysproject.configuration.CommonConfig;
 import com.wetoys.wetoysproject.entity.MemberEntity;
 import com.wetoys.wetoysproject.entity.ProjectEntity;
@@ -28,7 +29,7 @@ public record ProjectResponeDto(
         String createdDate,
         String modifiedDate
 ){
-
+    @QueryProjection
     public ProjectResponeDto(ProjectEntity projectEntity){
 
         this(

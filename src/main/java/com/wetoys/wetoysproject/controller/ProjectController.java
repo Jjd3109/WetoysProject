@@ -39,12 +39,7 @@ public class ProjectController {
      */
     @GetMapping("/api/v1/project")
     public ResponseEntity<?> projectList(@RequestParam("page") int page, @RequestParam("size") int size, @RequestParam(value = "menuObject", required = false) String menuObject){
-        log.info("최신순서");
-        log.info("menuObject 값 = {}", menuObject);
-
         ProjectPageRequest projectPageRequest = new ProjectPageRequest(page, size);
-
-
 
         return ResponseEntity.ok(projectService.findPageProject(projectPageRequest, menuObject));
     }
@@ -54,7 +49,7 @@ public class ProjectController {
      */
     @GetMapping("/api/v1/viewProject")
     public ResponseEntity<?> viewProject(@RequestParam("page") int page, @RequestParam("size") int size){
-        log.info("조회수순서");
+
         ProjectPageRequest projectPageRequest = new ProjectPageRequest(page, size);
         return ResponseEntity.ok(projectService.findViewPageProject(projectPageRequest));
     }
@@ -74,8 +69,6 @@ public class ProjectController {
      */
     @PostMapping("/api/v1/update/project")
     public ResponseEntity<?> updateProject(@RequestBody ProjectRequest projectRequest){
-
-        log.info("projectRequest 값 = {}", projectRequest);
         projectService.updateItem(projectRequest);
         return ResponseEntity.ok().build();
     }

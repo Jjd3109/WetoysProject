@@ -12,55 +12,77 @@ function ProjectAll(){
     const [lists, setLists] = useState([]);
     const [page, setPage] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [menuList, setMenuList] = useState('');
+    const [clikList, setClikList] = useState('');
     const navigate = useNavigate();
   
     useEffect(() => {
+      
       fetchProjects();
       window.addEventListener("scroll", handleScroll);
       return () => {
         window.removeEventListener("scroll", handleScroll);
       };
     }, [page]);
-  
+
+
     const fetchProjects = (menuObject) => {
+        setLoading(true);
+        setMenuList("undefined");
+        console.log("lists 값1  =" + lists);
+        console.log("menuObject 값1  =" + menuObject);
+        console.log("menuList 값1  =" + menuList);
         
-      setLoading(true);
-      axios
-        .get("/api/v1/project", {
-          params: {
-            page: page,
-            size: 10,
-            menuObject: menuObject
-          },
-        })
-        .then((res) => {
-          setLists((prevLists) => [...prevLists, ...res.data]);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching project data: ", error);
-          setLoading(false);
-        });
+        // 메뉴가 바뀌었거나 페이지가 처음 호출되었을 때만 초기화
+        if (menuObject !== menuList)  {
+     
+            setPage(0);
+            setLists([]);
+            
+        }
+        console.log("lists 값2  =" + lists);
+
+        axios
+            .get("/api/v1/project", {
+                params: {
+                    page: page,
+                    size: 10,
+                    menuObject: menuObject
+                },
+            })
+            .then((res) => {
+                let copy = lists.concat(res.data); // 새로운 배열을 기존 배열에 병합
+
+                setLists(copy);
+                //setLists((prevLists) => [...prevLists, ...res.data]);
+                setMenuList(menuObject);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching project data: ", error);
+                setLoading(false);
+            });
     };
-  
+
     const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop ===
-          document.documentElement.offsetHeight &&
-        !loading
-      ) {
-        setPage((prevPage) => prevPage + 1);
-      }
+        if (
+            window.innerHeight + document.documentElement.scrollTop ===
+            document.documentElement.offsetHeight &&
+            !loading
+        ) {
+            setPage((prevPage) => prevPage + 1);
+        }
     };
-  
+
+
     const move = (id) => {
       navigate("/projectdetail/" + id);
     };
 
 
-    const test = () => {
-        alert('테스트');
-    }
+
+
+
 
    
 
@@ -78,58 +100,33 @@ function ProjectAll(){
         <div className="grid grid-cols-4 gap-6 mx-auto max-w-7xl px-6 lg:px-8">
             
             {/* 왼쪽 카드*/}
-            <div className="col-span-1 mt-10 " style={{ position: "sticky", top: "10px", height: "calc(100vh - 150px)", overflowY: "auto" }}>
-                {/* 전체
-                <p>프론트</p>
-                <p>백</p>
-                <p>디자인</p>
-                <p>pm</p>
-                <p>other</p> */}
+           <div className="col-span-1 mt-10 " style={{ position: "sticky", top: "10px", height: "calc(100vh - 150px)", overflowY: "auto" }}>
                 <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700">
-                <h5 className="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
-                Find Member
-                </h5>
-                <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Connect one.</p>
-                <ul className="my-4 space-y-3">
-                <li>
-                <a onClick={test} className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-                <span className="flex-1 ms-3 whitespace-nowrap">All</span>
-                <span className="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-xs font-medium text-gray-500 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-400">Popular</span>
-                </a>
-                </li>
-                <li>
-                <a onClick={() => fetchProjects("Frontend")} className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-                <span className="flex-1 ms-3 whitespace-nowrap">Frontend</span>
-                </a>
-                </li>
-                <li>
-                <a href="#" className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-               <span className="flex-1 ms-3 whitespace-nowrap">Backend</span>
-                </a>
-                </li>
-                <li>
-                <a href="#" className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-               <span className="flex-1 ms-3 whitespace-nowrap">Design</span>
-                </a>
-                </li>
-                <li>
-                <a href="#" className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-                <span className="flex-1 ms-3 whitespace-nowrap">Pm</span>
-                </a>
-                </li>
-                <li>
-                <a href="/project" className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-                <span className="flex-1 ms-3 whitespace-nowrap">Other</span>
-                </a>
-                </li>
-                </ul>
-                <div>
-                <a href="#" className="inline-flex items-center text-xs font-normal text-gray-500 hover:underline dark:text-gray-400">
-                <svg className="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor"   d="M7.529 7.988a2.502 2.502 0 0 1 5 .191A2.441 2.441 0 0 1 10 10.582V12m-.01 3.008H10M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                </svg>
-                Why do I need to qustion ? </a>
-                </div>
+                    <h5 className="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
+                        Find Member
+                    </h5>
+                    <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Connect one.</p>
+                    <ul className="my-4 space-y-3">
+                        <a onClick={() => {fetchProjects(); }} className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                            <span className="flex-1 ms-3 whitespace-nowrap">All</span>
+                        </a>
+                        {["Frontend", "Backend", "Design", "PM", "Other"].map((category, index) => (
+                            <li key={index}>
+                                <a onClick={() => {fetchProjects(category);}} className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                                    <span className="flex-1 ms-3 whitespace-nowrap">{category}</span>
+                                    
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                    <div>
+                        <a href="#" className="inline-flex items-center text-xs font-normal text-gray-500 hover:underline dark:text-gray-400">
+                            <svg className="w-3 h-3 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" d="M7.529 7.988a2.502 2.502 0 0 1 5 .191A2.441 2.441 0 0 1 10 10.582V12m-.01 3.008H10M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                            </svg>
+                            Why do I need to question?
+                        </a>
+                    </div>
                 </div>
             </div>
     

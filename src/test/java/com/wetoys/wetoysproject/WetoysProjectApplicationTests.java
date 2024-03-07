@@ -36,6 +36,7 @@ class WetoysProjectApplicationTests {
 
 		//then
 		QMemberEntity member = QMemberEntity.memberEntity;
+
 		MemberEntity result = queryFactory.selectFrom(member)
 				.where(member.email.eq("123"))
 				.fetchOne();

@@ -93,9 +93,11 @@ public class ProjectService {
 
         Pageable pageable = PageRequest.of(projectPageRequest.page(), projectPageRequest.size(), Sort.by("id").descending());
 
-        log.info(projectRepositoryImpl.findAllDistinct(pageable).toString());
+        log.info(String.valueOf(pageable.getSort()));
 
-        return projectRepository.findAll(pageable).stream().map(o -> new ProjectResponeDto(o)).toList();
+
+        return projectRepositoryImpl.findAllDistinct(pageable, menuObject).stream().map(o -> new ProjectResponeDto(o)).toList();
+        //return projectRepositoryImpl.findAllDistinct(pageable, menuObject);
     }
 
 

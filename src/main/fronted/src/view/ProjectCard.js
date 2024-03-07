@@ -44,15 +44,23 @@ function ProjectCard(){
         },
       });
     }, [lists]);
+
+
+    function move(){
+        window.location.href="/projectall";
+    }
   
     return (
       <div className="bg-white py-24 sm:py-12">
-        <div className="mx-auto  max-w-2xl lg:mx-0">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">
+        <div className="mx-auto  max-w-8xl lg:mx-0 grid grid-cols-4">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl col-span-3">
             새로운 프로젝트 🎉
           </h2>
-          <div className="mt-3 font-bold">새로 업데이트된 사이드 프로젝트를 확인해보세요!</div>
+          <span className="text-2xl font-bold tracking-tight text-gray-900 sm:text-xl col-span-1" onClick={move}>  > &nbsp;&nbsp; 모두 보기 </span>
+           
         </div>
+                 
+        <div className="mt-3 font-bold">새로 업데이트된 사이드 프로젝트를 확인해보세요!</div>
         <div className="swiper-jd">
         <div className="swiper swiper-card">
           <div className="swiper-wrapper mt-10">

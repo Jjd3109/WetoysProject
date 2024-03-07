@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, location } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 // import Swiper bundle with all modules installed
@@ -51,6 +51,9 @@ function ProjectCardView(){
         });
       }, [cardlists]);
 
+    function move(){
+        window.location.href="/projectall";
+    }
     
     return (
 
@@ -60,11 +63,15 @@ function ProjectCardView(){
                 <div>Loading...</div>
                 ) : (
                     <>
-                    <div className="mx-auto mt-10 max-w-2xl lg:mx-0">
-                    <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl">인기 있는 프로젝트 TOP 10 🔥</h2>
-                    <div className="mt-3 font-bold">인기있는 사이드 프로젝트를 확인해보세요!</div>
+                    <div className="mx-auto mt-10 max-w-8xl lg:mx-0 grid grid-cols-4">
+                    <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-2xl col-span-3 ">
+                        인기 있는 프로젝트 TOP 10 🔥
+                     
+                    </h2>
+                    <span className="text-2xl font-bold tracking-tight text-gray-900 sm:text-xl col-span-1" onClick={move}>  > &nbsp;&nbsp; 모두 보기 </span>
+                    </div>
+                    <div className="mt-3 font-bold ">인기있는 사이드 프로젝트를 확인해보세요!</div>
                     
-                </div>
                 <div className="swiper-jd">
                 <div className="swiper swiper-card-view">
                     <div className="swiper-wrapper mt-10">
