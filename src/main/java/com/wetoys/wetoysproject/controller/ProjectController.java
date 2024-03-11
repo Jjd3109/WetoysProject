@@ -25,6 +25,7 @@ public class ProjectController {
          * 1. 조회수 증가
          * 2. 조회수 증가한 것을 조회후 반환
          */
+
         if(projectService.viewCount(id)){
             log.info("projectService.findItem(id) 값 = {}", projectService.findItem(id));
            return ResponseEntity.ok(projectService.findItem(id));
@@ -54,7 +55,7 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.findViewPageProject(projectPageRequest));
     }
 
-    @PostMapping("/api/v1/project")
+    @PostMapping("/api/v1/saveProject")
     public ResponseEntity<?> saveProject(@RequestBody ProjectRequest projectRequest) {
 
         if(projectService.saveItem(projectRequest)) {

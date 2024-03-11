@@ -215,7 +215,7 @@ function ProjectDetail() {
                 
                 <div className="grid place-items-center col-span-3">
                 <div className="m-auto px-4 py-8 max-w-xl ">
-                    <div className="bg-white shadow-2xl " >
+                    {/* <div className="bg-white shadow-2xl " >
                         <div>
                             <img src="https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" />
                         </div>
@@ -229,8 +229,26 @@ function ProjectDetail() {
                                 <div className="px-4 py-2 mt-2 text-gray-500">company / backend develop</div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
+
+
                     
+                    <div className="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
+                        <img className="w-32 h-32 rounded-full mx-auto" src="https://picsum.photos/200" alt="Profile picture" />
+                        <h2 className="text-center text-2xl font-semibold mt-3">John Doe</h2>
+                        <p className="text-center text-gray-600 mt-1">Software Engineer</p>
+                        <div className="flex justify-center mt-5">
+                        <a href="#" className="text-blue-500 hover:text-blue-700 mx-3">Twitter</a>
+                        <a href="#" className="text-blue-500 hover:text-blue-700 mx-3">LinkedIn</a>
+                        <a href="#" className="text-blue-500 hover:text-blue-700 mx-3">GitHub</a>
+                        </div>
+                        <div className="mt-5">
+                        <h3 className="text-xl font-semibold">Bio</h3>
+                        <p className="text-gray-600 mt-2">John is a software engineer with over 10 years of experience in developing web and mobile applications. He is skilled in JavaScript, React, and Node.js.</p>
+                        </div>
+                    </div>
+
+                                        
                     {/* 좋아요를 눌렀으면 다음과 같이 안눌렀으면 나오지 않게*/}
                     {
                         like ?  ( 

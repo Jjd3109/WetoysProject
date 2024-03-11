@@ -29,7 +29,14 @@ public class MemberEntity extends BaseTimeEntity implements UserDetails {
 
     private String password;
 
-    private String position;
+    private String username; // 자기 이름
+    private String about; //자기 소개
+
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
+    @BatchSize(size = 5)
+    private List<RequiredPosition> requiredPositions; //일하고 있는 분야
+
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

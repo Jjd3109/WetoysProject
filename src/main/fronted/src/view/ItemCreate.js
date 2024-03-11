@@ -31,7 +31,7 @@ function ItemCreate() {
         if (otherChecked) selectedCheckboxes.push('Other');
 
     
-        axios.post("/api/v1/project", {
+        axios.post("/api/v1/saveProject", {
             state : "모집중",
             title : title,
             shortContent : shortContent,
@@ -55,7 +55,7 @@ function ItemCreate() {
     };
 
     return (
-        <div className="edit_wrap  mx-auto max-w-7xl px-6 lg:px-8 g-white py-24 sm:py-10 max-w-7xl">
+        <div className="edit_wrap  mx-auto mt-10 px-6 lg:px-8 g-white py-24 sm:py-10 max-w-7xl">
             
             <div className="mb-6 ">
                 <label htmlFor="default-input" className="block mb-2 text-sm font-bold text-gray-900 dark:text-white">제목</label>

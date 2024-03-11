@@ -45,6 +45,7 @@ function Login(){
 
     
         <div className="g-white py-24 sm:py-32 mx-auto max-w-2xl px-6 lg:px-8">
+            
             <h2 className="text-3xl mb-10 font-bold tracking-tight text-gray-900 sm:text-4xl">로그인</h2>
             <div className="mb-6 ">
                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
@@ -63,7 +64,9 @@ function Login(){
             <div>
                 <button type="button" className="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={MemberJoin}> 회원가입 </button>
             </div>
+            
         </div>
+  
 
     );
     

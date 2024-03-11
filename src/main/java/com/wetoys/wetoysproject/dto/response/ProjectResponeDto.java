@@ -25,7 +25,7 @@ public record ProjectResponeDto(
 
         Long memberId,
         String email,
-        String position,
+
         String createdDate,
         String modifiedDate
 ){
@@ -33,6 +33,7 @@ public record ProjectResponeDto(
     public ProjectResponeDto(ProjectEntity projectEntity){
 
         this(
+
                 projectEntity.getId(),
                 projectEntity.getState(),
                 projectEntity.getProjectCode(),
@@ -44,7 +45,7 @@ public record ProjectResponeDto(
                 projectEntity.getRequiredPositions(),
                 projectEntity.getMemberEntity().getId(),
                 projectEntity.getMemberEntity().getEmail(),
-                projectEntity.getMemberEntity().getPosition(),
+
                 CommonConfig.betweenDate(projectEntity.getCreatedDate()),
                 CommonConfig.betweenDate(projectEntity.getModifiedDate())
 
