@@ -30,6 +30,7 @@ public class MemberEntity extends BaseTimeEntity implements UserDetails {
     private String password;
 
     private String username; // 자기 이름
+    private String info; // 회사 직함 및 일하고 있는 분야
     private String about; //자기 소개
 
     @ElementCollection
@@ -42,6 +43,9 @@ public class MemberEntity extends BaseTimeEntity implements UserDetails {
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity", cascade = CascadeType.REMOVE)
+    private List<MemberFileEntity> memberFileEntities;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "memberEntity", cascade = CascadeType.REMOVE)
     @BatchSize(size = 10)
@@ -58,6 +62,19 @@ public class MemberEntity extends BaseTimeEntity implements UserDetails {
         memberEntity.password = password;
         memberEntity.roles = roles;
         return memberEntity;
+    }
+
+
+
+    /*
+     * 변경 감지를 통한 멤버업데이트
+     */
+    public MemberEntity updateMember(String username, String about, String info){
+       this.username = username;
+       this.about = about;
+       this.info = info;
+
+       return this;
     }
 
     @Override

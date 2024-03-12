@@ -11,6 +11,11 @@ import "swiper/css/bundle";
 function ProjectAll(){
     const [lists, setLists] = useState([]);
     const [page, setPage] = useState(0);
+    
+    const [newPage, newSetPage] = useState(0);
+
+
+
     const [loading, setLoading] = useState(false);
     const [menuList, setMenuList] = useState('');
     const [clikList, setClikList] = useState('');
@@ -18,9 +23,9 @@ function ProjectAll(){
   
     useEffect(() => {
       
-      fetchProjects();
-      window.addEventListener("scroll", handleScroll);
-      return () => {
+        fetchProjects();
+        window.addEventListener("scroll", handleScroll);
+        return () => {
         window.removeEventListener("scroll", handleScroll);
       };
     }, [page]);
@@ -28,20 +33,9 @@ function ProjectAll(){
 
     const fetchProjects = (menuObject) => {
         setLoading(true);
-        setMenuList("undefined");
-        console.log("lists 값1  =" + lists);
-        console.log("menuObject 값1  =" + menuObject);
-        console.log("menuList 값1  =" + menuList);
         
-        // 메뉴가 바뀌었거나 페이지가 처음 호출되었을 때만 초기화
-        if (menuObject !== menuList)  {
-     
-            setPage(0);
-            setLists([]);
-            
-        }
-        console.log("lists 값2  =" + lists);
-
+        alert('여기가실행?');
+        
         axios
             .get("/api/v1/project", {
                 params: {
@@ -51,11 +45,9 @@ function ProjectAll(){
                 },
             })
             .then((res) => {
-                let copy = lists.concat(res.data); // 새로운 배열을 기존 배열에 병합
 
-                setLists(copy);
-                //setLists((prevLists) => [...prevLists, ...res.data]);
-                setMenuList(menuObject);
+                let copy = lists.concat(res.data); // 새로운 배열을 기존 배열에 병합
+                setLists(copy); 
                 setLoading(false);
             })
             .catch((error) => {
@@ -64,6 +56,32 @@ function ProjectAll(){
             });
     };
 
+    const fetchingProjects = (menuObject) => {
+        setLoading(true);
+        setPage(0); // 페이지 번호 증가
+         
+        setMenuList([]);
+
+        axios
+        .get("/api/v1/project", {
+            params: {
+                page: page , // 페이지 번호 증가
+                size: 10,
+                menuObject: menuObject
+            },
+        })
+        .then((res) => {
+            
+            let copy = res.data; // 새로운 배열을 기존 배열에 병합
+            setLists(copy); 
+            setLoading(false);
+        })
+        .catch((error) => {
+            console.error("Error fetching project data: ", error);
+            setLoading(false);
+        });
+    }
+
     const handleScroll = () => {
         if (
             window.innerHeight + document.documentElement.scrollTop ===
@@ -71,6 +89,7 @@ function ProjectAll(){
             !loading
         ) {
             setPage((prevPage) => prevPage + 1);
+    
         }
     };
 
@@ -79,6 +98,8 @@ function ProjectAll(){
       navigate("/projectdetail/" + id);
     };
 
+
+ 
 
 
 
@@ -107,14 +128,13 @@ function ProjectAll(){
                     </h5>
                     <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Connect one.</p>
                     <ul className="my-4 space-y-3">
-                        <a onClick={() => {fetchProjects(); }} className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                        <a onClick={() => {fetchingProjects(); }} className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
                             <span className="flex-1 ms-3 whitespace-nowrap">All</span>
                         </a>
                         {["Frontend", "Backend", "Design", "PM", "Other"].map((category, index) => (
                             <li key={index}>
-                                <a onClick={() => {fetchProjects(category);}} className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                                <a onClick={() => { fetchingProjects(category);}} className="flex items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
                                     <span className="flex-1 ms-3 whitespace-nowrap">{category}</span>
-                                    
                                 </a>
                             </li>
                         ))}

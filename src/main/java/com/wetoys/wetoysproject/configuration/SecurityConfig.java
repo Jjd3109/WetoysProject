@@ -37,8 +37,10 @@ public class SecurityConfig {
                 authorize -> authorize
                         .requestMatchers("/api/v1/project/*").hasRole("USER")
                         .requestMatchers("/api/v1/project").permitAll()
+                        .requestMatchers("/api/v1/join").permitAll()
                         .requestMatchers("/api/v1/viewProject").permitAll()
                         .requestMatchers("/api/v1/project/like").hasRole("USER")
+                        .requestMatchers("/api/v1/update/project").hasRole("USER")
                         .requestMatchers("/api/v1/saveProject").hasRole("USER")
                         .requestMatchers("/api/v1/project/likeCancel").hasRole("USER")
                         .requestMatchers("/api/v1/update/member").hasRole("USER")

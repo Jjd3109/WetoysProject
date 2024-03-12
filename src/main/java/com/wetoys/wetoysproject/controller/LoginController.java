@@ -7,7 +7,14 @@ import com.wetoys.wetoysproject.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,14 +49,12 @@ public class LoginController {
     }
 
     @PostMapping("/api/v1/update/member")
-    public ResponseEntity<?> update(@RequestBody MemberRequestDto memberRequestDto){
+    public ResponseEntity<?> update(@RequestPart(value = "username", required = false) String username,
+                                    @RequestPart(value = "about", required = false) String about,
+                                    @RequestPart(value = "info", required = false) String info,
+                                    @RequestPart(value = "previewUrl", required = false) MultipartFile previewUrl) throws IOException {
 
-        log.info("memberRequestDto.about() 값 = {}", memberRequestDto.about());
-        log.info("memberRequestDto.username() 값 = {}", memberRequestDto.username());
-        log.info("memberRequestDto.requiredPosition() 값 = {}", memberRequestDto.requiredPosition());
-        log.info("previewUrl 값 = {}", memberRequestDto.previewUrl());
-
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok(loginService.updateMember(username, about, info, previewUrl));
     }
 
 
