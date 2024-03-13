@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Member;
 import java.util.*;
 
 @Service
@@ -50,11 +51,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         MemberEntity user = memberRepository.findByEmail(email)
                 .orElseGet(() -> {
                     // 사용자가 없으면 새로운 사용자로 등록
-//                    User newUser = new User();
-//                    newUser.setEmail(email);
-//                    // 필요한 경우 다른 사용자 정보도 설정할 수 있습니다.
-//                    return userRepository.save(newUser);
-                    return null;
+                    MemberEntity newUser = MemberEntity.builder()
+                            .email(email)
+                            .build();
+
+                    return memberRepository.save(newUser);
+
                 });
 
         return new CustomOAuth2User(oauth2User.getAttributes(), user);
