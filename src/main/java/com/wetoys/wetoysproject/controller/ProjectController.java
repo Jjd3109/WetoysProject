@@ -38,9 +38,20 @@ public class ProjectController {
     /*
      * 프로젝트 최신건 10회 조회
      */
-    @GetMapping("/api/v1/project")
-    public ResponseEntity<?> projectList(@RequestParam("page") int page, @RequestParam("size") int size, @RequestParam(value = "menuObject", required = false) String menuObject){
+    @GetMapping("/api/v1/projectView/{category}")
+    public ResponseEntity<?> projectList(@PathVariable(value = "category", required = false) String category, @RequestParam("page") int page, @RequestParam("size") int size, @RequestParam(value = "menuObject", required = false) String menuObject){
         ProjectPageRequest projectPageRequest = new ProjectPageRequest(page, size);
+        log.info("menuObject 값 = {}", menuObject);
+
+        try{
+            if(menuObject.equals("All")){
+                menuObject = null;
+            }
+        }catch (NullPointerException n){
+
+        }
+
+
 
         return ResponseEntity.ok(projectService.findPageProject(projectPageRequest, menuObject));
     }

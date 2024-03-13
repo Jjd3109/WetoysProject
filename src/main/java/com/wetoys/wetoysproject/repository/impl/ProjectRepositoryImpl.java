@@ -28,32 +28,6 @@ public class ProjectRepositoryImpl implements ProjectRepositoryCustom {
     /*
      * Dto로 바로 반환받는
      */
-//    public List<ProjectResponeDto> findAllDistinct(Pageable pageable, String menuObject) {
-//        QProjectResponeDto qProjectResponeDto = new QProjectResponeDto(
-//                projectEntity.id,
-//                projectEntity.state,
-//                projectEntity.projectCode,
-//                projectEntity.title,
-//                projectEntity.content,
-//                projectEntity.viewCount,
-//                projectEntity.shortContent,
-//                projectEntity.likeProjectEntities,
-//                projectEntity.requiredPositions,
-//                projectEntity.memberEntity.id,
-//                projectEntity.memberEntity.email,
-//                projectEntity.memberEntity.position,
-//                projectEntity.createdDate,
-//                projectEntity.modifiedDate
-//        );
-//
-//        return jpaQueryFactory
-//                .select(qProjectResponeDto)
-//                .from(projectEntity)
-//                .where(projectEntity.requiredPositions.contains(RequiredPosition.valueOf(menuObject)))
-//                .offset(pageable.getOffset())
-//                .limit(pageable.getPageSize())
-//                .fetch();
-//    }
 
     /*
      * 기본적인 구조

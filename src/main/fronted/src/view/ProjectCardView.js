@@ -52,7 +52,7 @@ function ProjectCardView(){
       }, [cardlists]);
 
     function move(){
-        window.location.href="/projectall";
+        window.location.href="/projectall/all";
     }
     
     return (

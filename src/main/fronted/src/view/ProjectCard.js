@@ -17,7 +17,7 @@ function ProjectCard(){
   
     useEffect(() => {
       axios
-        .get("/api/v1/project", {
+        .get("/api/v1/projectView/test", {
           params: {
             page: page,
             size: 10,
@@ -47,7 +47,7 @@ function ProjectCard(){
 
 
     function move(){
-        window.location.href="/projectall";
+        window.location.href="/projectall/all";
     }
   
     return (
