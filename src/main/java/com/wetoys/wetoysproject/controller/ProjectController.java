@@ -15,7 +15,6 @@ import java.awt.print.Pageable;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@ResponseBody
 public class ProjectController {
 
     private final ProjectService projectService;
@@ -98,6 +97,8 @@ public class ProjectController {
      */
     @PostMapping("/api/v1/project/like")
     public ResponseEntity<?> likeProject(@RequestParam("id") String id){
+
+
         return ResponseEntity.ok(projectService.likeUp(id));
     }
 

@@ -18,7 +18,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@ResponseBody
 @Slf4j
 public class LoginController {
 

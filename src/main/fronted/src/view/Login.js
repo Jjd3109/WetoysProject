@@ -1,13 +1,13 @@
 import { useDeferredValue, useEffect, useState } from "react";
 import axios from "axios";
 import MemberJoin from "./MemberJoin";
+import { useLocation } from "react-router-dom";
 
 function Login(){
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    
 
 
     async function login() {
@@ -38,11 +38,27 @@ function Login(){
         document.location.href = '/MemberJoin';
     }
 
-    function kakaoLogin(){
-        document.location.href = 'https://kauth.kakao.com/oauth/authorize';
-    }
+    // const handleKakaoLogin = async () => {
+    //     try {
+    //       const response = await axios.get("http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:3001&mode=login");
+    //       // 로그인 성공 시 처리
+    //       console.log(response);
+    //     } catch (error) {
+    //       // 에러 처리
+    //       console.error(error);
+    //     }
+    //   };
 
 
+       const handleKakaoLogin = async () => {
+     
+            axios.get("/oauth2/authorization/kakao")
+            .then(function(response){
+                console.log("성공");
+            }).catch(function(response){
+                console.log("실패");
+            })
+      };
 
 
     return (
@@ -69,11 +85,13 @@ function Login(){
                 <button type="button" className="mt-10 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" onClick={MemberJoin}> 회원가입 </button>
             </div>
             <div>
-                <a href="http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:3000&mode=login">
+                <a href="http://localhost:8080/oauth2/authorization/kakao?redirect_uri=http://localhost:3001&mode=login">
                     <button>Kakao Login</button>
                 </a>
             </div>
-            
+            <div>
+                <button onClick={handleKakaoLogin}>Kakao Login</button>
+            </div>
            
         </div>
   

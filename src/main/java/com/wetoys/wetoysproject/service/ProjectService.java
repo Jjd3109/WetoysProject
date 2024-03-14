@@ -150,7 +150,7 @@ public class ProjectService {
             ProjectEntity projectEntity = ProjectEntity.builder().
                                         id(Long.valueOf(id)).
                                         build();
-
+            log.info("securityUtil.getCurrentMember() 값 = {}", securityUtil.getCurrentMember().getUsername());
             LikeProjectEntity likeProjectEntity = LikeProjectEntity.builder().projectEntity(projectEntity).memberEntity(securityUtil.getCurrentMember()).build();
 
             likeRepository.save(likeProjectEntity);

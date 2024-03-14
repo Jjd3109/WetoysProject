@@ -90,6 +90,35 @@ public class JwtTokenProvider {
                 .build();
     }
 
+    /*
+     * OAuth2 토큰 로그인 방식
+     */
+    public JwtToken generateToken(String email) {
+        long now = (new Date()).getTime();
+        Date accessTokenExpiresIn = new Date(now + 86400000);
+        String accessToken = Jwts.builder()
+                .setSubject(email)
+                .claim("auth", "ROLE_USER")
+                .setExpiration(accessTokenExpiresIn)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+
+        // Refresh Token redis 생성
+        String refreshToken = UUID.randomUUID().toString();
+
+        // Refresh Token redis에 넣기
+        RefreshToken redis = new RefreshToken(refreshToken, email);
+
+        refreshTokenRepository.save(redis);
+
+        return JwtToken.builder()
+                .grantType("Bearer")
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+    }
+
+
     // Jwt 토큰을 복호화하여 토큰에 들어있는 정보를 꺼내는 메서드
     public Authentication getAuthentication(String accessToken) {
         // Jwt 토큰 복호화
@@ -125,8 +154,8 @@ public class JwtTokenProvider {
 
             return true;
         } catch (SecurityException | MalformedJwtException e) {
+            log.info("Invalid JWT Token.");
 
-            log.info("Invalid JWT Token", e);
         } catch (ExpiredJwtException e) {
            //만료가 되었으니까 이 때 시작 검증 과정을 거친다
 
@@ -135,10 +164,12 @@ public class JwtTokenProvider {
 
 
         } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT Token", e);
+            log.info("Unsupported JWT Token");
         } catch (IllegalArgumentException e) {
-            log.info("JWT claims string is empty.", e);
+            log.info("JWT claims string is empty.");
         }
+
+
         return false;
     }
 

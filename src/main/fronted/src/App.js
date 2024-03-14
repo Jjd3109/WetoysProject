@@ -20,6 +20,7 @@ import ProjectBackend from "./view/Project/ProjectBackend";
 import ProjectDesign from "./view/Project/ProjectDesign";
 import ProjectPM from "./view/Project/ProjectPM";
 import ProjectOther from "./view/Project/ProjectOther";
+import KakaoLogin from "./view/KakaoLogin";
 
 function App() {
   const [hello, setHello] = useState('');
@@ -30,6 +31,7 @@ function App() {
         // 요청을 보내기 전에 실행되는 코드
         config.headers['Authorization'] = `Bearer ` + localStorage.getItem("accessToken"); // 헤더에 AccessToken을 추가
         config.headers['RefreshToken'] = localStorage.getItem("refreshToken"); // 헤더에 AccessToken을 추가
+        console.log("config 값: " + config.Authorization);
         return config;
     },
     function(error) {
@@ -76,7 +78,7 @@ function App() {
             <Route path="/projectall/Design" element={<ProjectDesign />}></Route> 
             <Route path="/projectall/PM" element={<ProjectPM />}></Route> 
             <Route path="/projectall/Other" element={<ProjectOther />}></Route> 
-      
+            <Route path="/KakaoLogin" element={<KakaoLogin />}></Route>
       
             
         </Routes>

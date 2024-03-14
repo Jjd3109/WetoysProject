@@ -36,6 +36,7 @@ function ProjectDetail() {
         * 2. 조회
         * 3. 좋아요 개수 구하기
         */
+ 
         axios.get(`/api/v1/project/${id}`)
             .then(function(res){
                 SetList(res.data);

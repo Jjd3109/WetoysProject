@@ -23,13 +23,15 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         String token = resolveToken((HttpServletRequest) request); // access token value
         String refreshToken = ((HttpServletRequest) request).getHeader("RefreshToken");// refresh token value
 
+        System.out.println("token 값 :" + token);
+        System.out.println("refreshToken 값 :" + refreshToken);
+
         // 2. validateToken으로 토큰 유효성 검사
         if (token != null && jwtTokenProvider.validateToken(token, refreshToken)) { //token이 빈값이 아니고 토큰 값이 true 일 때 생성
             // 토큰이 유효할 경우 토큰에서 Authentication 객체를 가지고 와서 SecurityContext에 저장
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
-
 
         chain.doFilter(request, response);
     }
