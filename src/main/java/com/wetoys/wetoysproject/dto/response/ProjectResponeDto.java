@@ -24,7 +24,11 @@ public record ProjectResponeDto(
         List<RequiredPosition> requiredPositions,
 
         Long memberId,
-        String email,
+        String email, // 아이디
+
+        String userName, //이름
+        String info, //직종
+        String about, //설명
 
         String createdDate,
         String modifiedDate
@@ -45,6 +49,10 @@ public record ProjectResponeDto(
                 projectEntity.getRequiredPositions(),
                 projectEntity.getMemberEntity().getId(),
                 projectEntity.getMemberEntity().getEmail(),
+                //아이디 정보 단
+                projectEntity.getMemberEntity().getUsername(),
+                projectEntity.getMemberEntity().getInfo(),
+                projectEntity.getMemberEntity().getAbout(),
 
                 CommonConfig.betweenDate(projectEntity.getCreatedDate()),
                 CommonConfig.betweenDate(projectEntity.getModifiedDate())

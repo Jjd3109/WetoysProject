@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @Builder
 @Setter
+@ToString
 public class ProjectEntity extends BaseTimeEntity {
 
     @Id

@@ -35,10 +35,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oauth2User = super.loadUser(userRequest);
 
-        CustomOAuth2User customOAuth2User = (CustomOAuth2User) processOAuth2User(userRequest, oauth2User);
-
-
-
         try {
             return processOAuth2User(userRequest, oauth2User);
         } catch (AuthenticationException ex) {
@@ -56,9 +52,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         log.info("attributes 값 = {}", attributes);
         String email = (String) emailMap.get("email");
 
-        //Token값 가져오가
-        String accessToken = userRequest.getAccessToken().getTokenValue();
-
 
         // 이메일로 사용자 조회
         MemberEntity user = memberRepository.findByEmail(email)
@@ -71,9 +64,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     return memberRepository.save(newUser);
 
                 });
-
-        //String jwtToken = jwtTokenProvider.generateToken(email);
-
 
         // 토큰을 사용자 정보와 함께 리턴
         return new CustomOAuth2User(emailMap, user);

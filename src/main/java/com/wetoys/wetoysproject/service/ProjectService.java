@@ -9,9 +9,11 @@ import com.wetoys.wetoysproject.entity.LikeProjectEntity;
 import com.wetoys.wetoysproject.entity.ProjectEntity;
 import com.wetoys.wetoysproject.entity.MemberEntity;
 import com.wetoys.wetoysproject.entity.RequiredPosition;
+import com.wetoys.wetoysproject.redis.ViewCount;
 import com.wetoys.wetoysproject.repository.LikeRepository;
 import com.wetoys.wetoysproject.repository.ProjectRepository;
 import com.wetoys.wetoysproject.repository.MemberRepository;
+import com.wetoys.wetoysproject.repository.ViewCountRepository;
 import com.wetoys.wetoysproject.repository.impl.ProjectRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
@@ -39,6 +42,7 @@ public class ProjectService {
     private final LikeRepository likeRepository;
     private final SecurityUtil securityUtil;
     private final ProjectRepositoryImpl projectRepositoryImpl;
+    private final ViewCountRepository viewCountRepository;
 
     /*
      * 프로젝트 생성
@@ -118,7 +122,8 @@ public class ProjectService {
      */
     public List<ProjectResponeDto> findItem(Long id){
 
-        //log.info("projectRepository.findId(id) 값 = {}", projectRepository.findId(id).getContent());
+        log.info("projectRepository.findId(id) 값 = {}", projectRepository.findId(id).get(0));
+
         return projectRepository.findId(id).stream().map(o -> new ProjectResponeDto(o)).toList();
 
     }
@@ -126,15 +131,39 @@ public class ProjectService {
     /*
      * 프로젝트 조회수 증가
      */
+
+    //Todo: 조회수 증가시 Redis를 활용한 중복 체크
     @Transactional(readOnly = false)
     public boolean viewCount(Long id){
 
-        try {
-            projectRepository.saveViewCount(id);
-            return true;
-        }catch (NullPointerException n){
-            return false;
-        }
+
+        /*
+         * Redis key : value 값으로 저장
+         * 1. id, itemId 값으로 조회
+         * 2-1. id, itemId 값이 있으면 넘기기
+         * 2-2. id, itemId 값이 없으면 redis에 값 저장
+         * 3. viewCount +1 증가
+         * 4
+         */
+        ViewCount viewCount = new ViewCount(securityUtil.getCurrentMember().getEmail(), id);
+
+        Optional<ViewCount> test = viewCountRepository.findById(securityUtil.getCurrentMember().getEmail());
+        log.info("test 값 = {}", test);
+
+
+        projectRepository.saveViewCount(id);
+        viewCountRepository.save(viewCount);
+        return true;
+
+
+//        if(existingViewCount == null){
+//            projectRepository.saveViewCount(id);
+//            viewCountRepository.save(viewCount);
+//            return true;
+//        }else{
+//            return false;
+//        }
+
     }
 
 
@@ -196,13 +225,16 @@ public class ProjectService {
         /*
          * 이름을 토대로 멤버 이름 조회
          */
-        Optional<MemberEntity> memberEntity = memberRepository.findByEmail(SecurityUtil.getCurrentMemberName());
+        Optional<MemberEntity> memberEntity = Optional.ofNullable(memberRepository.findByEmail(SecurityUtil.getCurrentMemberName()).orElseThrow(() -> new NoSuchElementException("값이 없습니다.")));
 
         try{
             List<likeResponse> likeResponses = likeRepository.findByMemberIdAndProjectId(memberEntity.get().getId(), Long.valueOf(projectId)).stream().map(o -> new likeResponse(o)).toList();
             return likeResponses;
         }catch (IndexOutOfBoundsException i){
             log.info("좋아요가 없습니당");
+            return null;
+        }catch (NoSuchElementException n){
+            log.info("회원이 없습니다.");
             return null;
         }
 
