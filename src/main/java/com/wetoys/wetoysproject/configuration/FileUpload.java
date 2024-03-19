@@ -26,7 +26,7 @@ public class FileUpload {
         String uuid = UUID.randomUUID().toString();
         uuid = uuid + "." + original;
 
-        String filePath = "C:/Users/정종두/Desktop/테스트/";
+        String filePath = "        C:/Users/정종두/IdeaProjects/WetoysProject/src/main/fronted/public/image";
 
 
         fileUpload.add(uuid); //저장될이름
@@ -34,7 +34,7 @@ public class FileUpload {
         fileUpload.add(filePath); // 이동경로
 
         try (
-                FileOutputStream fos = new FileOutputStream("C:/Users/정종두/Desktop/테스트/" + uuid);
+                FileOutputStream fos = new FileOutputStream("        C:/Users/정종두/IdeaProjects/WetoysProject/src/main/fronted/public/image" + uuid);
                 InputStream is = file.getInputStream();
         ) {
             int readCount = 0;

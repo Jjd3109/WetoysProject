@@ -15,6 +15,7 @@ import com.wetoys.wetoysproject.repository.ProjectRepository;
 import com.wetoys.wetoysproject.repository.MemberRepository;
 import com.wetoys.wetoysproject.repository.ViewCountRepository;
 import com.wetoys.wetoysproject.repository.impl.ProjectRepositoryImpl;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,10 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -43,6 +41,7 @@ public class ProjectService {
     private final SecurityUtil securityUtil;
     private final ProjectRepositoryImpl projectRepositoryImpl;
     private final ViewCountRepository viewCountRepository;
+//    private final ViewCountRepositoryImpl viewCountRepositoryImpl;
 
     /*
      * 프로젝트 생성
@@ -139,30 +138,32 @@ public class ProjectService {
 
         /*
          * Redis key : value 값으로 저장
+         * null 값인 아이디 반환이면
          * 1. id, itemId 값으로 조회
          * 2-1. id, itemId 값이 있으면 넘기기
          * 2-2. id, itemId 값이 없으면 redis에 값 저장
          * 3. viewCount +1 증가
          * 4
          */
-        ViewCount viewCount = new ViewCount(securityUtil.getCurrentMember().getEmail(), id);
 
-        Optional<ViewCount> test = viewCountRepository.findById(securityUtil.getCurrentMember().getEmail());
-        log.info("test 값 = {}", test);
+        try{
+            String name = securityUtil.getCurrentMember().getEmail();
 
+            ViewCount viewCount = new ViewCount(name, id);
 
-        projectRepository.saveViewCount(id);
-        viewCountRepository.save(viewCount);
+            Optional<ViewCount> existingViewCount = viewCountRepository.findById(name);
+
+            //isPresent() 값이 있다면 True 없다면 False
+            if(!existingViewCount.isPresent()){
+                projectRepository.saveViewCount(id);
+                viewCountRepository.save(viewCount);
+
+            }
+        }catch (NullPointerException n){
+            return true;
+        }
+
         return true;
-
-
-//        if(existingViewCount == null){
-//            projectRepository.saveViewCount(id);
-//            viewCountRepository.save(viewCount);
-//            return true;
-//        }else{
-//            return false;
-//        }
 
     }
 

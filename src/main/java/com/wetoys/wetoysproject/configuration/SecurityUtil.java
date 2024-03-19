@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component
@@ -44,9 +43,15 @@ public class SecurityUtil {
 
     public MemberEntity getCurrentMember() { // 반환형을 Long으로 수정
 
-        Optional<MemberEntity> memberEntity = Optional.ofNullable(memberRepository.findByEmail(SecurityUtil.getCurrentMemberName()).orElseThrow(() -> new NoSuchElementException("값없음")));
+        Optional<MemberEntity> memberEntity = memberRepository.findByEmail(SecurityUtil.getCurrentMemberName());
 
-        return memberEntity.get();
+        if(memberEntity.isPresent()){
+            return memberEntity.get();
+        }else{
+            return null;
+        }
+
+
     }
 
 

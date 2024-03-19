@@ -3,6 +3,7 @@ package com.wetoys.wetoysproject.service;
 import com.wetoys.wetoysproject.configuration.FileUpload;
 import com.wetoys.wetoysproject.configuration.JwtTokenProvider;
 import com.wetoys.wetoysproject.configuration.SecurityUtil;
+import com.wetoys.wetoysproject.dto.response.MemberInfoResponse;
 import com.wetoys.wetoysproject.entity.MemberFileEntity;
 import com.wetoys.wetoysproject.repository.MemberFileRepository;
 import com.wetoys.wetoysproject.token.JwtToken;
@@ -63,6 +64,21 @@ public class LoginService {
         }catch (DataIntegrityViolationException e){
             //아이디 중복일 경우
             return duplicationError.getMessage();
+        }
+
+    }
+
+
+    public Optional<MemberInfoResponse> findMember(String email){
+        //email을 토대로
+        Optional<MemberEntity> memberEntity = memberRepository.findByEmail(email);
+
+        log.info("memberEntity 값 = {}", memberEntity);
+
+        if(memberEntity.isPresent()){
+            return memberEntity.map(MemberInfoResponse::new);
+        }else{
+            return null;
         }
 
     }

@@ -33,9 +33,10 @@ public class MemberEntity extends BaseTimeEntity implements UserDetails {
     private String info; // 회사 직함 및 일하고 있는 분야
     private String about; //자기 소개
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.LAZY)
     @Enumerated(EnumType.STRING)
     @BatchSize(size = 5)
+
     private List<RequiredPosition> requiredPositions; //일하고 있는 분야
 
 

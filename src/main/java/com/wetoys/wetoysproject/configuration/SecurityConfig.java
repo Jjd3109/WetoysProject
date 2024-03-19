@@ -43,6 +43,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                 authorize -> authorize
                         .requestMatchers("/api/v1/project/*").permitAll()
+                        .requestMatchers("/api/v1/member").permitAll()
                         .requestMatchers("/api/v1/project").permitAll()
                         .requestMatchers("/api/v1/join").permitAll()
                         .requestMatchers("/api/v1/login").permitAll()

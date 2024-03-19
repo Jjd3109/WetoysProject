@@ -13,7 +13,7 @@ import ProjectCard from "./view/ProjectCard";
 import ProjectCardView from "./view/ProjectCardView";
 import ModifyProject from "./view/ModifyProject";
 import ProjectAll from "./view/Project/ProjectAll";
-import UserIntroduce from "./view/UserIntroduce";
+import UserInfo from "./view/UserInfo";
 import User from "./view/User";
 import ProjectFront from "./view/Project/ProjectFront";
 import ProjectBackend from "./view/Project/ProjectBackend";
@@ -71,8 +71,7 @@ function App() {
             <Route path="/ProjectCardView" element={<ProjectCardView />}></Route>
             <Route path="/ModifyProject/:id" element={<ModifyProject />}></Route>
             <Route path="/ProjectAll/all" element={<ProjectAll />}></Route>
-            <Route path="/UserIntroduce" element={<UserIntroduce />}></Route>
-            <Route path="/User" element={<User />}></Route>
+
             <Route path="/projectall/frontend" element={<ProjectFront />}></Route> 
             <Route path="/projectall/backend" element={<ProjectBackend />}></Route> 
             <Route path="/projectall/Design" element={<ProjectDesign />}></Route> 
@@ -80,6 +79,10 @@ function App() {
             <Route path="/projectall/Other" element={<ProjectOther />}></Route> 
             <Route path="/KakaoLogin" element={<KakaoLogin />}></Route>
       
+
+            {/* USER */}
+            <Route path="/UserInfo" element={<UserInfo />}></Route>
+            <Route path="/User" element={<User />}></Route>
             
         </Routes>
 
