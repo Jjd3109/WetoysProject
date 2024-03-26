@@ -25,8 +25,9 @@ export default function UserInfo(){
         loading ? (
             <div>Loading...</div>
         ) : (
+        <>
         <div className="bg-white py-24 sm:py-32">
-            
+            ??
             <div className="max-w-lg mx-auto my-10 bg-white rounded-lg shadow-md p-5">
                 <img className="w-32 h-32 rounded-full mx-auto"  src={`image/${info.data.fileName}`} alt="Profile picture" />
                 <h2 className="text-center text-2xl font-semibold mt-3">{info.data.username}</h2>
@@ -41,11 +42,23 @@ export default function UserInfo(){
                 <p className="text-gray-600 mt-2">{info.data.about}</p>
                 </div>
             </div>
-            <div className="">
-
-            </div>
 
         </div>
+        <div className="bg-white max-w-lg mx-auto grid grid-cols-3 gap-4 text-center">
+            <div className="col-span-1">
+                테스트
+            </div>
+            <div className="col-span-1">
+                테스트
+            </div>
+            <div className="col-span-1">
+                테스트
+            </div>
+        </div>
+        <div className="bg-white py-24 sm:py-32 max-w-lg mx-auto grid text-center">
+            정보
+        </div>   
+        </>
        
         )
     }

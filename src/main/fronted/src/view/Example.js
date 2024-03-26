@@ -260,6 +260,10 @@ export default function Example() {
                                        made
                                     </a>
                                     <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
+                                    <a href="/userinfo" className="ml-5 text-sm font-medium text-gray-700 hover:text-gray-800">
+                                       info
+                                    </a>
+                                    <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
 
                                     </div>
                                 }

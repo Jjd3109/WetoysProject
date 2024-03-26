@@ -49,11 +49,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         Map<String, Object> attributes = oauth2User.getAttributes();
         Map<String, Object> emailMap = (HashMap<String, Object>) attributes.get("kakao_account");
 
-        log.info("attributes 값 = {}", attributes);
+
         String email = (String) emailMap.get("email");
 
 
-        // 이메일로 사용자 조회
         MemberEntity user = memberRepository.findByEmail(email)
                 .orElseGet(() -> {
                     // 사용자가 없으면 새로운 사용자로 등록

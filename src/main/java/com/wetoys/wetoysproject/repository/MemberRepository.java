@@ -14,9 +14,8 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
     List<MemberEntity> findByEmailAndAndPassword(String email, String password);
 
-    @Query("SELECT m FROM MemberEntity m JOIN FETCH m.memberFileEntities WHERE m.email = :email")
+    @Query("SELECT m FROM MemberEntity m LEFT JOIN FETCH m.memberFileEntities mf WHERE m.email = :email")
     Optional<MemberEntity> findByEmail(@Param("email") String email);
-
 
 
 
